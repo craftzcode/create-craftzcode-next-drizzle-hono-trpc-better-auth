@@ -16,6 +16,13 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "ui-add": {
+      "cache": false,
+      "interactive": true
+    },
+    "clean": {
+      "cache": false
     }
   }
 }

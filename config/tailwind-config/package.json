@@ -1,0 +1,25 @@
+{
+  "name": "@rhu-ii/tailwind-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./style.css": "./style.css",
+    "./postcss.config.mjs": "./postcss.config.mjs"
+  },
+  "scripts": {
+    "lint": "next lint --max-warnings 0",
+    "clean": "git clean -xdf .cache .turbo node_modules"
+  },
+  "devDependencies": {
+    "@rhu-ii/eslint-config": "*",
+    "@rhu-ii/prettier-config": "*",
+    "@tailwindcss/postcss": "^4.0.17",
+    "eslint": "^9.22.0",
+    "tailwindcss": "^4.0.17"
+  },
+  "prettier": "@rhu-ii/prettier-config",
+  "dependencies": {
+    "tw-animate-css": "^1.2.4"
+  }
+}
