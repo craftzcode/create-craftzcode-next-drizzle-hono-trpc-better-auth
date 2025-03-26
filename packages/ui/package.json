@@ -3,16 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx"
+    "./lib/*": "./src/lib/*.ts",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "ui-add": "bunx --bun shadcn@latest add",
+    "postui-add": "prettier src --write --list-different",
+    "clean": "git clean -xdf .cache .turbo node_modules"
   },
   "devDependencies": {
     "@rhu-ii/eslint-config": "*",
     "@rhu-ii/typescript-config": "*",
+    "@rhu-ii/tailwind-config": "*",
+    "@rhu-ii/prettier-config": "*",
     "@turbo/gen": "^2.4.4",
     "@types/node": "^22.13.10",
     "@types/react": "19.0.10",
@@ -21,7 +28,12 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.484.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  }
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.2"
+  },
+  "prettier": "@rhu-ii/prettier-config"
 }

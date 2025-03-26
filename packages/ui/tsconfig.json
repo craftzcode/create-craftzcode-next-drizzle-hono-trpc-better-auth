@@ -1,8 +1,11 @@
 {
   "extends": "@rhu-ii/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "baseUrl": ".",
+    "paths": {
+      "@rhu-ii/ui/*": ["./src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["."],
   "exclude": ["node_modules", "dist"]
 }
