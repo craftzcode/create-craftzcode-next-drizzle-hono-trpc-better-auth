@@ -1,0 +1,17 @@
+---
+description: 
+globs: apps/docs/**/*.ts,apps/docs/**/*.tsx,apps/web/**/*.ts,apps/web/**/*.tsx
+alwaysApply: false
+---
+- Prioritize using server components (RSC) for performance, SEO, and data fetching
+- Use client components sparingly, only when interactivity is required
+- Take advantage of Next.js file-based routing system for simplicity
+- Centralize shared layouts in `layout.tsx` for consistency across pages
+- Add `loading.tsx` to handle loading states for better UX
+- Implement custom error pages with `error.tsx` to handle errors gracefully
+- Use tRPC to manage bacjend logic within the app structure
+- Optimize server-side rendering (SSR) and static site generation (SSG) for faster loading times
+- All code should be organized by feature modules in `src/modules/{module-name}/`
+- Each module should contain its own isolated concerns (UI, routers, utils, etc.)
+- Helper functions must be placed inside `src/modules/{module-name}/lib/` or `src/modules/{module-name}/lib/{name of folder of specific component where to use the helper}`; if they are global, use `src/lib`
+- For any logic or algorithm implemented in functions, components, hooks, or helper functions (such as those in `lib/utils`) or any kind that has a logic or algorithm, always include comprehensive documentation. Use inline comments or JSDoc to provide explanations, instructions, usage details, and examples

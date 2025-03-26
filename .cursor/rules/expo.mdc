@@ -1,0 +1,11 @@
+---
+description: 
+globs: apps/expo/**/*.ts,apps/expo/**/*.tsx
+alwaysApply: false
+---
+- Prefer functional components with React Hooks
+- Levarage EXPO SDK features and APIs effectively
+- Use Expo Router for structured and navigation
+- Manage assets efficiently with Expo's asset system (images, fonts, etc.)
+- Use Reanimated for performant animations
+- For any logic or algorithm implemented in functions, components, hooks, or helper functions (such as those in `lib/utils`) or any kind that has a logic or algorithm, always include comprehensive documentation. Use inline comments or JSDoc to provide explanations, instructions, usage details, and examples

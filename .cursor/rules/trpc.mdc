@@ -1,0 +1,43 @@
+---
+description: 
+globs: packages/api/**/*.ts,packages/api/**/*.tsx
+alwaysApply: false
+---
+- Use descriptive, domain-specific names for routers (e.g., `userRouter`, `authRouter`, etc.)
+- Each router should be in its own file under a `routers` directory
+- Group related procedures within the same router
+  ```ts
+  export const userRouter = createTRPCRouter({
+    getProfile: publicProcedure...
+    updateProfile: protectedProcedure...
+  })
+  ```
+- Use `publicProcedure` for unauthenticated endpoints
+- Use `protectedProcedure` for authenticated endpoints
+- Create custom middleware procedures for specific authorization checks
+  ```ts
+  const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+    if (!ctx.user.isAdmin) throw new TRPCError({ code: 'UNAUTHORIZED' })
+    return next()
+  })
+  ```
+- Always validate input using Zod schemas
+- Define reusable schemas in a separate `schemas` directory
+- Use strict type checking with `.strict()`
+  ```ts
+  const updateUserSchema = z.object({
+    name: z.string().min(2),
+    email: z.string().email()
+  }).strict()
+  ```
+- Use semantic naming for queries and mutations
+- Prefix mutations with verbs (create, update, delete)
+- Use nouns for queries
+  ```ts
+  export const userRouter = createTRPCRouter({
+    getUser: publicProcedure...
+    createUser: protectedProcedure...
+    updateUserProfile: protectedProcedure...
+  })
+  ```
+- For any logic or algorithm implemented in functions, components, hooks, or helper functions (such as those in `lib/utils`) or any kind that has a logic or algorithm, always include comprehensive documentation. Use inline comments or JSDoc to provide explanations, instructions, usage details, and examples
