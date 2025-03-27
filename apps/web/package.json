@@ -12,6 +12,7 @@
     "clean": "git clean -xdf .cache .turbo node_modules"
   },
   "dependencies": {
+    "@remixicon/react": "^4.6.0",
     "@rhu-ii/ui": "*",
     "next": "^15.2.1",
     "react": "^19.0.0",
