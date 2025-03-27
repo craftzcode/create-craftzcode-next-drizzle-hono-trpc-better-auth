@@ -114,10 +114,20 @@ config
         ```json
         "clean": "git clean -xdf .cache .turbo node_modules"
         ```
-      - Add clean script in the root project `package.json`.
+      - Add this two clean scripts in the root `package.json` of your turborepo.
         ```json
-        "clean": "git clean -xdf node_modules",
-        "clean:workspaces": "turbo run clean"
+        "scripts": {
+          "clean": "git clean -xdf node_modules",
+          "clean:workspaces": "turbo run clean"
+        }
+        ```
+      - Also add the clean script in `turbo.json`.
+        ```json
+        "tasks": {
+          "clean": {
+            "cache": false
+          },
+        }
         ```
       - GIT COMMIT: `git commit -m "chore(package): add clean script to all workspaces"`
       - Add the script for running dev with filtering `docs` or `web`
@@ -445,27 +455,19 @@ config
           "iconLibrary": "lucide"
         }
         ```
-      - Add the following scripts to your root `package.json`.
+      - Add the ui-add script to your root `package.json` of your turborepo.
         ```json
-        {
-          "scripts": {
-            "ui-add": "turbo run ui-add -F @craftzcode/ui --",
-            "clean": "git clean -xdf node_modules",
-            "clean:workspaces": "turbo run clean"
-          }
+        "scripts": {
+          "ui-add": "turbo run ui-add -F @craftzcode/ui --",
         }
         ```
-      - Add the following entries to your turbo.json.
+      - Add the ui-add script to your turbo.json.
         ```json
-        {
-          "tasks": {
-            "ui-add": {
-              "cache": false,
-              "interactive": true
+        "tasks": {
+          "ui-add": {
+            "cache": false,
+            "interactive": true
             },
-            "clean": {
-              "cache": false
-            }
           }
         }
         ```
@@ -535,7 +537,7 @@ config
               openGraph: {
                 type: 'website',
                 locale: 'en_US',
-                url: 'https://rhu-ii-system.gov.ph/',
+                url: 'https://craftzcode-system.gov.ph/',
                 title: 'RHU II System',
                 description:
                   'Comprehensive healthcare management system for Rural Health Units offering free medical services, patient management, and inventory tracking.',
@@ -630,33 +632,71 @@ config
 
 9.  Setup Drizzle ORM and Neon Database
 
-    - GIT BRANCH: `git checkout -b `
+    - GIT BRANCH: `git checkout -b backend/feat/5-db`
 
     - Setup `db` package
 
       - Create a folder called `db` inside the `packages` folder.
       - Go to the location of your `db` folder in shell then init the `package.json`
-
         - CLI: `bun init`
         - Replace the contents of `packages/db/package.json` with the following code.
-
           ```json
           {
-            "name": "@rhu-ii/db",
-            "module": "index.ts",
+            "name": "@craftzcode/db",
+            "version": "0.0.0",
             "type": "module",
+            "exports": {
+              ".": {
+                "types": "./dist/index.d.ts",
+                "default": "./src/index.ts"
+              },
+              "./schema": {
+                "types": "./dist/src/schema/index.d.ts",
+                "default": "./src/schema/index.ts"
+              }
+            },
+            "scripts": {
+              "build": "tsc",
+              "dev": "tsc",
+              "push": "bunx drizzle-kit push",
+              "studio": "bunx drizzle-kit studio",
+              "lint": "eslint . --max-warnings 0",
+              "check-types": "tsc --noEmit",
+              "clean": "git clean -xdf .cache .turbo node_modules"
+            },
             "devDependencies": {
-              "@rhu-ii/eslint-config": "*",
-              "@rhu-ii/typescript-config": "*",
-              "@rhu-ii/prettier-config": "*",
+              "@craftzcode/eslint-config": "*",
+              "@craftzcode/prettier-config": "*",
+              "@craftzcode/typescript-config": "*",
               "eslint": "^9.22.0",
               "typescript": "5.8.2"
             },
-            "prettier": "@rhu-ii/prettier-config"
+            "prettier": "@craftzcode/prettier-config"
           }
           ```
-
-      - Add `eslint.config.js` with the following code
+        - GIT COMMIT: `git commit -m "chore(db): add package.json for db package"`
+        - Add this two db scripts in the `package.json` of the root your turbrepo.
+          ```json
+          "scripts": {
+            "db:craftzcode": "turbo -F @rhu-ii/db push",
+            "db:studio": "turbo -F @craftzcode/db studio"
+          }
+          ```
+        - Also add the db scripts in `turbo.json`
+          ```json
+          "tasks": {
+            "push": {
+              "cache": false,
+              "interactive": true
+             },
+             "studio": {
+               "cache": false,
+               "persistent": true
+             }
+           }
+          ```
+          - GIT COMMIT: `git commit -m "chore(turbo): add db push and studio scripts"`
+      - Add `eslint.config.js` in `packages/db` with the following code
 
         ```js
         import baseConfig from "@craftzcode/eslint-config/base";
@@ -670,28 +710,176 @@ config
         ];
         ```
 
-      - Add `tsconfig.json` with the following code.
+      - Add `tsconfig.json` in `packages/db` with the following code.
 
         ```json
         {
-          "extends": "@rhu-ii/typescript-config/base.json",
+          "extends": "@craftzcode/typescript-config/base.json",
+          "compilerOptions": {
+            "module": "Preserve",
+            "moduleResolution": "Bundler"
+          },
           "include": ["src"],
           "exclude": ["node_modules"]
         }
         ```
 
+        - GIT COMMIT: `git commit -m "chore(db): configure TS and ESLint"`
+
     - Setup Neon Database
       - Create a database in [Neon Tech](https://console.neon.tech/).
-      - Create `.env` on the root of package `packages/db/.env`.
-      - Copy the connection string and paste it to `.env`
+      - Create `.env` on the root of package `packages/db/.env.local`.
+      - Copy the connection string and paste it to `.env.local`
         ```
         DATABASE_URL="connection-string"
         ```
     - Setup Drizzle ORM
+
       - Option 1: Follow their official [Drizzle ORM Documentation](https://orm.drizzle.team/docs/get-started/neon-new).
       - Option 2: Follow this guide.
+
         - Go to the location of your `db` folder in shell then install `Drizzle ORM` and `Neon Database` packages.
           ```shell
           bun add drizzle-orm @neondatabase/serverless dotenv
           bun add -D drizzle-kit tsx
           ```
+          - GIT COMMIT `git commit -m "chore(db): install drizzle ORM and neon database packages"`
+        - Create a `src` folder in `packages/db` and create a `index.ts` file in the `packages/db/src` directory and initialize the connection.
+
+          ```ts
+          import { drizzle } from "drizzle-orm/neon-http";
+
+          // Retrieve the database URL from environment variables
+          const DATABASE_URL = process.env.DATABASE_URL;
+
+          // Ensure that the DATABASE_URL is defined
+          if (!DATABASE_URL) {
+            throw new Error("DATABASE_URL is not defined");
+          }
+
+          /**
+           * Establishes a database connection using Drizzle ORM with Neon serverless PostgreSQL.
+           *
+           * @description
+           * This module creates a singleton database connection that can be imported
+           * and used across the application. It uses the Neon HTTP driver for Drizzle ORM.
+           *
+           * @throws {Error} Throws an error if DATABASE_URL environment variable is not defined
+           *
+           * @example
+           * // Basic usage with schema
+           * // Importing the database connection
+           * import { db } from './db'
+           * import { users } from './schema'
+           *
+           * // Using the database connection to query
+           * const users = await db.select().from(usersTable)
+           *
+           * @requires process.env.DATABASE_URL - PostgreSQL connection string
+           * @see {@link https://orm.drizzle.team/docs/overview|Drizzle ORM Documentation}
+           * @see {@link https://neon.tech|Neon Serverless PostgreSQL}
+           */
+          export const db = drizzle(DATABASE_URL);
+          ```
+
+          - GIT COMMIT: `git commit -m "feat(db): initialize database connection"`
+
+        - Create a `schema` folder in `packages/db/src` and create a `auth.ts` file in the `packages/db/src/schema` directory and add this schema.
+
+          ```ts
+          import {
+            boolean,
+            pgTable,
+            text,
+            timestamp,
+            uuid,
+          } from "drizzle-orm/pg-core";
+
+          export const user = pgTable("user", {
+            id: uuid("id").primaryKey(),
+            name: text("name").notNull(),
+            email: text("email").notNull().unique(),
+            emailVerified: boolean("email_verified").notNull(),
+            image: text("image"),
+            createdAt: timestamp("created_at").notNull(),
+            updatedAt: timestamp("updated_at").notNull(),
+          });
+
+          export const session = pgTable("session", {
+            id: uuid("id").primaryKey(),
+            expiresAt: timestamp("expires_at").notNull(),
+            token: text("token").notNull().unique(),
+            createdAt: timestamp("created_at").notNull(),
+            updatedAt: timestamp("updated_at").notNull(),
+            ipAddress: text("ip_address"),
+            userAgent: text("user_agent"),
+            userId: text("user_id")
+              .notNull()
+              .references(() => user.id, { onDelete: "cascade" }),
+          });
+
+          export const account = pgTable("account", {
+            id: uuid("id").primaryKey(),
+            accountId: text("account_id").notNull(),
+            providerId: text("provider_id").notNull(),
+            userId: text("user_id")
+              .notNull()
+              .references(() => user.id, { onDelete: "cascade" }),
+            accessToken: text("access_token"),
+            refreshToken: text("refresh_token"),
+            idToken: text("id_token"),
+            accessTokenExpiresAt: timestamp("access_token_expires_at"),
+            refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+            scope: text("scope"),
+            password: text("password"),
+            createdAt: timestamp("created_at").notNull(),
+            updatedAt: timestamp("updated_at").notNull(),
+          });
+
+          export const verification = pgTable("verification", {
+            id: uuid("id").primaryKey(),
+            identifier: text("identifier").notNull(),
+            value: text("value").notNull(),
+            expiresAt: timestamp("expires_at").notNull(),
+            createdAt: timestamp("created_at"),
+            updatedAt: timestamp("updated_at"),
+          });
+          ```
+
+          - GIT COMMIT: `git commit -m "feat(db): add auth schema in src/schema"`
+
+        - Create a `index.ts` file in the `packages/db/src/schema` directory and export the `auth.ts` so we can import like this `import { user } from '@craftzcode/db/schema'`.
+          ```ts
+          export * from "./auth";
+          ```
+        - Create a `drizzle.config.ts` file in the `packages/db/src` and add the following content.
+
+          ```ts
+          import dotenv from "dotenv";
+          import { defineConfig } from "drizzle-kit";
+
+          // We use dotenv to load environment variables from our .env.local file into process.env
+          // This is especially useful when running scripts outside of Next.js (e.g., CLI commands like `drizzle-kit push`).
+          // While Next.js automatically loads environment variables for its runtime, we still need dotenv
+          // for scripts or tools that aren't run within the Next.js environment (like Drizzle migrations).
+          dotenv.config({ path: ".env.local" });
+
+          // Retrieve the database URL from environment variables
+          const DATABASE_URL = process.env.DATABASE_URL;
+
+          // Ensure that the DATABASE_URL is defined
+          if (!DATABASE_URL) {
+            throw new Error("DATABASE_URL is not defined");
+          }
+
+          export default defineConfig({
+            out: "./drizzle",
+            schema: "./src/schema/index.ts",
+            dialect: "postgresql",
+            dbCredentials: {
+              url: DATABASE_URL,
+            },
+          });
+          ```
+
+          - GIT COMMIT: `git commit -m "feat(db): add drizzle.config.ts for Drizzle Kit configuration"`
