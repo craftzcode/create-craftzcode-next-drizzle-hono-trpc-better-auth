@@ -4,6 +4,7 @@ import './globals.css'
 
 import { Open_Sans } from 'next/font/google'
 
+import { Main } from '../components/main'
 import { NavigationMenu } from '../components/navigation-menu'
 
 const openSans = Open_Sans({
@@ -104,7 +105,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${openSans.variable} antialiased`}>
         <NavigationMenu />
-        <main>{children}</main>
+        <Main>{children}</Main>
       </body>
     </html>
   )
