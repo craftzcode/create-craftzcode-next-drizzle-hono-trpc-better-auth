@@ -6,6 +6,8 @@
     "dev": "turbo run dev",
     "dev:docs": "turbo run dev -F docs",
     "dev:web": "turbo run dev -F web",
+    "db:push": "turbo -F @rhu-ii/db push",
+    "db:studio": "turbo -F @rhu-ii/db studio",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",

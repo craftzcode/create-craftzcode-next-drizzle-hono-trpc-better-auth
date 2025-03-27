@@ -15,6 +15,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc",
+    "push": "bunx drizzle-kit push",
+    "studio": "bunx drizzle-kit studio",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
     "clean": "git clean -xdf .cache .turbo node_modules"
