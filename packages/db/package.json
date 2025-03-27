@@ -1,0 +1,13 @@
+{
+  "name": "@rhu-ii/db",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@rhu-ii/eslint-config": "*",
+    "@rhu-ii/typescript-config": "*",
+    "@rhu-ii/prettier-config": "*",
+    "eslint": "^9.22.0",
+    "typescript": "5.8.2"
+  },
+  "prettier": "@rhu-ii/prettier-config"
+}
