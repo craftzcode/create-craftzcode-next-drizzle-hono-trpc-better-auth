@@ -711,7 +711,6 @@ config
         ```
 
       - Add `tsconfig.json` in `packages/db` with the following code.
-
         ```json
         {
           "extends": "@craftzcode/typescript-config/base.json",
@@ -723,8 +722,7 @@ config
           "exclude": ["node_modules"]
         }
         ```
-
-        - GIT COMMIT: `git commit -m "chore(db): configure TS and ESLint"`
+      - GIT COMMIT: `git commit -m "chore(db): configure TS and ESLint"`
 
     - Setup Neon Database
       - Create a database in [Neon Tech](https://console.neon.tech/).
@@ -738,7 +736,7 @@ config
       - Option 1: Follow their official [Drizzle ORM Documentation](https://orm.drizzle.team/docs/get-started/neon-new).
       - Option 2: Follow this guide.
 
-        - Go to the location of your `db` folder in shell then install `Drizzle ORM` and `Neon Database` packages.
+        - Go to the `packages/db` folder in your shell then install `Drizzle ORM` and `Neon Database` packages.
           ```shell
           bun add drizzle-orm @neondatabase/serverless dotenv
           bun add -D drizzle-kit tsx
@@ -883,3 +881,326 @@ config
           ```
 
           - GIT COMMIT: `git commit -m "feat(db): add drizzle.config.ts for Drizzle Kit configuration"`
+
+10. Setup tRPC with Hono.js
+
+    - GIT BRANCH: ``
+
+    - Setup `api` package
+
+      - Create a folder called `api` inside the `packages` folder.
+      - Inside `packages/api`, create a `package.json` file with the following content.
+        ```json
+        {
+          "name": "@rhu-ii/api",
+          "version": "0.0.0",
+          "type": "module",
+          "exports": {
+            ".": {
+              "types": "./dist/src/index.d.ts",
+              "default": "./src/index.ts"
+            },
+            "./client": {
+              "types": "./dist/src/client/index.d.tsx",
+              "default": "./src/client/index.tsx"
+            },
+            "./server": {
+              "types": "./dist/src/server/index.d.tsx",
+              "default": "./src/server/index.tsx"
+            }
+          },
+          "scripts": {
+            "build": "tsc",
+            "dev": "tsc",
+            "lint": "eslint . --max-warnings 0",
+            "check-types": "tsc --noEmit",
+            "clean": "git clean -xdf .cache .turbo node_modules"
+          },
+          "dependencies": {
+            "@tanstack/react-query": "^5.69.0",
+            "@trpc/client": "^11.0.0",
+            "@trpc/server": "^11.0.0",
+            "@trpc/tanstack-react-query": "^11.0.0",
+            "client-only": "^0.0.1",
+            "server-only": "^0.0.1",
+            "superjson": "^2.2.2",
+            "zod": "^3.24.2"
+          },
+          "devDependencies": {
+            "@rhu-ii/eslint-config": "*",
+            "@rhu-ii/prettier-config": "*",
+            "@rhu-ii/typescript-config": "*",
+            "eslint": "^9.22.0",
+            "typescript": "5.8.2"
+          },
+          "prettier": "@rhu-ii/prettier-config"
+        }
+        ```
+        - GIT COMMIT: `git commit -m "chore(db): add package.json for db package"`
+      - Add `eslint.config.js` in `packages/api` with the following code
+
+        ```js
+        import baseConfig from "@craftzcode/eslint-config/base";
+
+        /** @type {import('typescript-eslint').Config} */
+        export default [
+          {
+            ignores: ["dist/**"],
+          },
+          ...baseConfig,
+        ];
+        ```
+
+      - Add `tsconfig.json` in `packages/api` with the following code.
+        ```json
+        {
+          "extends": "@craftzcode/typescript-config/base.json",
+          "compilerOptions": {
+            "module": "Preserve",
+            "moduleResolution": "Bundler"
+          },
+          "include": ["src"],
+          "exclude": ["node_modules"]
+        }
+        ```
+      - GIT COMMIT: `git commit -m "chore(api): configure TS and ESLint"`
+
+    - Setup tRPC
+
+      - Option 1: Follow their official [tRPC Documentation](https://trpc.io/docs/client/tanstack-react-query/server-components).
+      - Option 2: Follow this guide.
+
+        - Go to the `packages/api` folder in shell then install `tRPC` packages.
+          ```shell
+          bun add @trpc/server @trpc/client @trpc/tanstack-react-query @tanstack/react-query@latest zod client-only server-only
+          ```
+          - GIT COMMIT `git commit -m "chore(api): install tRPC packages"`
+        - Create a `src` and `src/server` folder in your `packages/api` and create a `init.ts/index.ts` file in the `packages/api/src/server` initialize the backend of tRPC.
+
+          ```ts
+          import { cache } from "react";
+
+          import { initTRPC } from "@trpc/server";
+
+          import { AppRouter, appRouter } from "./server/routers";
+
+          export const createTRPCContext = cache(async () => {
+            /**
+             * @see: https://trpc.io/docs/server/context
+             */
+            return { userId: "user_123" };
+          });
+          // Avoid exporting the entire t-object
+          // since it's not very descriptive.
+          // For instance, the use of a t variable
+          // is common in i18n libraries.
+          const t = initTRPC.create({
+            /**
+             * @see https://trpc.io/docs/server/data-transformers
+             */
+            // transformer: superjson,
+          });
+          // Base router and procedure helpers
+          export const createTRPCRouter = t.router;
+          export const createCallerFactory = t.createCallerFactory;
+          export const publicProcedure = t.procedure;
+          // TODO: Add Protected Procedure
+          export { appRouter };
+          export type { AppRouter };
+          ```
+
+        - Create `routers` folder in `packages/api/src` and create a `_app.ts/index.ts` file in the `packages/api/src/server/routers` add this root tRPC route.
+
+          ```ts
+          import { z } from "zod";
+
+          import { createTRPCRouter, publicProcedure } from "../init";
+
+          export const appRouter = createTRPCRouter({
+            hello: publicProcedure
+              .input(
+                z.object({
+                  text: z.string(),
+                })
+              )
+              .query((opts) => {
+                return {
+                  greeting: `hello ${opts.input.text}`,
+                };
+              }),
+          });
+          // export type definition of API
+          export type AppRouter = typeof appRouter;
+          ```
+
+        - Create `client` folder in `packages/api/src` and create a shared file `packages/api/src/client/query-client.ts` that exports a function that creates a `QueryClient` instance.
+
+          ```ts
+          import superjson from "superjson";
+
+          import {
+            defaultShouldDehydrateQuery,
+            QueryClient,
+          } from "@tanstack/react-query";
+
+          export function makeQueryClient() {
+            return new QueryClient({
+              defaultOptions: {
+                queries: {
+                  staleTime: 30 * 1000,
+                },
+                dehydrate: {
+                  serializeData: superjson.serialize,
+                  shouldDehydrateQuery: (query) =>
+                    defaultShouldDehydrateQuery(query) ||
+                    query.state.status === "pending",
+                },
+                hydrate: {
+                  deserializeData: superjson.deserialize,
+                },
+              },
+            });
+          }
+          ```
+
+        - Setup a tRPC client for Client Components create a `client.tsx/index.tsx` file in the `packages/api/src/client` with the following code.
+
+          ```tsx
+          "use client";
+
+          // ^-- to make sure we can mount the Provider from a server component
+          import { useState } from "react";
+
+          import type { QueryClient } from "@tanstack/react-query";
+          import { QueryClientProvider } from "@tanstack/react-query";
+          import { createTRPCClient, httpBatchLink } from "@trpc/client";
+          import { createTRPCContext } from "@trpc/tanstack-react-query";
+
+          import type { AppRouter } from "../server/routers";
+          import { makeQueryClient } from "./query-client";
+
+          export const { TRPCProvider, useTRPC } =
+            createTRPCContext<AppRouter>();
+          let browserQueryClient: QueryClient;
+          function getQueryClient() {
+            if (typeof window === "undefined") {
+              // Server: always make a new query client
+              return makeQueryClient();
+            }
+            // Browser: make a new query client if we don't already have one
+            // This is very important, so we don't re-make a new client if React
+            // suspends during the initial render. This may not be needed if we
+            // have a suspense boundary BELOW the creation of the query client
+            if (!browserQueryClient) browserQueryClient = makeQueryClient();
+            return browserQueryClient;
+          }
+          function getUrl() {
+            const base = (() => {
+              if (typeof window !== "undefined") return "";
+              if (process.env.VERCEL_URL)
+                return `https://${process.env.VERCEL_URL}`;
+              return "http://localhost:3000";
+            })();
+            return `${base}/api/trpc`;
+          }
+          export function TRPCReactProvider(
+            props: Readonly<{
+              children: React.ReactNode;
+            }>
+          ) {
+            // NOTE: Avoid useState when initializing the query client if you don't
+            //       have a suspense boundary between this and the code that may
+            //       suspend because React will throw away the client on the initial
+            //       render if it suspends and there is no boundary
+            const queryClient = getQueryClient();
+            const [trpcClient] = useState(() =>
+              createTRPCClient<AppRouter>({
+                links: [
+                  httpBatchLink({
+                    // transformer: superjson, <-- if you use a data transformer
+                    url: getUrl(),
+                  }),
+                ],
+              })
+            );
+            return (
+              <QueryClientProvider client={queryClient}>
+                <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+                  {props.children}
+                </TRPCProvider>
+              </QueryClientProvider>
+            );
+          }
+          ```
+
+        - Setup a tRPC caller for Server Components create a `server.tsx/index.tsx` file in the `packages/api/src/server` with the following code.
+
+          ```tsx
+          import "server-only"; // <-- ensure this file cannot be imported from the client
+
+          import { cache } from "react";
+
+          import { createTRPCClient, httpLink } from "@trpc/client";
+          import {
+            createTRPCOptionsProxy,
+            TRPCQueryOptions,
+          } from "@trpc/tanstack-react-query";
+
+          import { makeQueryClient } from "../client/query-client";
+          import { createTRPCContext } from "../index";
+          import { appRouter } from "./routers/index";
+          import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+
+          // IMPORTANT: Create a stable getter for the query client that
+          //            will return the same client during the same request.
+          export const getQueryClient = cache(makeQueryClient);
+          export const trpc = createTRPCOptionsProxy({
+            ctx: createTRPCContext,
+            router: appRouter,
+            queryClient: getQueryClient,
+          });
+          // If your router is on a separate server, pass a client:
+          createTRPCOptionsProxy({
+            client: createTRPCClient({
+              links: [httpLink({ url: "..." })],
+            }),
+            queryClient: getQueryClient,
+          });
+
+          // You can also create a prefetch and HydrateClient helper functions to make it a bit more consice and reusable
+          // export function HydrateClient(props: { children: React.ReactNode }) {
+          //   const queryClient = getQueryClient();
+          //   return (
+          //     <HydrationBoundary state={dehydrate(queryClient)}>
+          //       {props.children}
+          //     </HydrationBoundary>
+          //   );
+          // }
+          // export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
+          //   queryOptions: T,
+          // ) {
+          //   const queryClient = getQueryClient();
+          //   if (queryOptions.queryKey[1]?.type === 'infinite') {
+          //     void queryClient.prefetchInfiniteQuery(queryOptions as any);
+          //   } else {
+          //     void queryClient.prefetchQuery(queryOptions);
+          //   }
+          // }
+
+          // Then you can use it like this
+          // import { HydrateClient, prefetch, trpc } from '~/trpc/server';
+          // function Home() {
+          //   prefetch(
+          //     trpc.hello.queryOptions({
+          //       /** input */
+          //     }),
+          //   );
+          //   return (
+          //     <HydrateClient>
+          //       <div>...</div>
+          //       {/** ... */}
+          //       <ClientGreeting />
+          //     </HydrateClient>
+          //   );
+          // }
+          ```
