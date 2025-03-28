@@ -8,8 +8,6 @@ description:
 globs: /**/*.ts,/**/*.tsx
 alwaysApply: false
 ---
-I'll enhance the rules prompt with markdown and provide an example for each rule:
-
 # React Component Design Guidelines with Shadcn UI and Tailwind CSS
 
 ## 1. Use Shadcn UI Components with Proper Composition and Customization
