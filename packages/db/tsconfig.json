@@ -1,9 +1,11 @@
 {
   "extends": "@rhu-ii/typescript-config/base.json",
   "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
     "module": "Preserve",
     "moduleResolution": "Bundler"
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }
