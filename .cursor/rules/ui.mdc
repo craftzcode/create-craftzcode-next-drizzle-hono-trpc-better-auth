@@ -8,15 +8,255 @@ description:
 globs: /**/*.ts,/**/*.tsx
 alwaysApply: false
 ---
-- Use Shadcn UI components with proper composition and customization
-- Levarage Radix UI primitives for accessible interactive components
-- Follow Tailwind CSS class naming conventions and utility patterns
-- Implement mobile-first responsive design with Tailwind breakpoints
-- Maintain consistent spacing and layout using Tailwind's spacing scale
-- Use Tailwind's color system for consistent theming
-- Implement dark mode support using Tailwind's dark variant
-- Ensure components are accessible following WCAG guidelines
-- Keep component styles modular and reusable
-- Optimize component bundle size through proper code splitting
-- When applying conditional styling, use the `cn` library (e.g., `<div className={cn('bg-background', isActive ? 'text-foreground' : 'text-muted-foreground')}>`) to handle conditional Tailwind CSS classes
-- For any logic or algorithm implemented in variables, functions, components, hooks, or helper functions (such as those in `lib/utils`) or any kind that has a logic, algorithm, or conditional, always include comprehensive documentation. Use inline comments or JSDoc to provide explanations, instructions, usage details, and examples
+I'll enhance the rules prompt with markdown and provide an example for each rule:
+
+# React Component Design Guidelines with Shadcn UI and Tailwind CSS
+
+## 1. Use Shadcn UI Components with Proper Composition and Customization
+
+Shadcn UI provides composable, accessible components that can be easily customized:
+
+```tsx
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription, 
+  DialogTrigger 
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+
+function ExampleDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Customized Dialog</DialogTitle>
+          <DialogDescription>
+            This is a reusable and customizable dialog component
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  )
+}
+```
+
+## 2. Leverage Radix UI Primitives for Accessible Interactive Components
+
+Utilize Radix UI's unstyled, accessible components as a foundation:
+
+```tsx
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { Button } from "@/components/ui/button"
+
+function AccessibleTooltip() {
+  return (
+    <Tooltip.Provider>
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <Button>Hover me</Button>
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content 
+            className="bg-background text-foreground p-2 rounded shadow-lg"
+          >
+            Accessible tooltip content
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  )
+}
+```
+
+## 3. Follow Tailwind CSS Class Naming Conventions and Utility Patterns
+
+Consistently apply Tailwind utility classes:
+
+```tsx
+function ConsistentStyling() {
+  return (
+    <div className="
+      p-4 
+      space-y-2 
+      rounded-lg 
+      border 
+      border-border 
+      bg-background 
+      shadow-sm 
+      hover:bg-accent 
+      transition-colors
+    ">
+      <h2 className="text-lg font-semibold text-foreground">
+        Consistent Styling
+      </h2>
+    </div>
+  )
+}
+```
+
+## 4. Implement Mobile-First Responsive Design
+
+Use Tailwind's responsive breakpoint utilities:
+
+```tsx
+function ResponsiveLayout() {
+  return (
+    <div className="
+      flex 
+      flex-col 
+      md:flex-row 
+      gap-4 
+      p-4 
+      w-full 
+      max-w-6xl 
+      mx-auto
+    ">
+      <div className="w-full md:w-1/2 lg:w-1/3">
+        Mobile full width, tablet half width
+      </div>
+      <div className="w-full md:w-1/2 lg:w-2/3">
+        Responsive column
+      </div>
+    </div>
+  )
+}
+```
+
+## 5. Maintain Consistent Spacing with Tailwind's Spacing Scale
+
+Use predefined spacing utilities:
+
+```tsx
+function ConsistentSpacing() {
+  return (
+    <div className="space-y-4 p-6">
+      <div className="p-4 bg-muted rounded-md">
+        Consistent 16px (p-4) padding
+      </div>
+      <div className="p-2 bg-muted rounded-md">
+        Consistent 8px (p-2) padding
+      </div>
+    </div>
+  )
+}
+```
+
+## 6. Use Tailwind's Color System for Consistent Theming
+
+Leverage semantic color classes:
+
+```tsx
+function ThemedComponent() {
+  return (
+    <div className="
+      bg-background 
+      text-foreground 
+      border 
+      border-border 
+      hover:bg-accent 
+      hover:text-accent-foreground
+    ">
+      Themed Component
+    </div>
+  )
+}
+```
+
+## 7. Implement Dark Mode Support
+
+Use Tailwind's dark mode variant:
+
+```tsx
+function DarkModeComponent() {
+  return (
+    <div className="
+      bg-white 
+      text-black 
+      dark:bg-black 
+      dark:text-white 
+      transition-colors
+    ">
+      Dark Mode Aware
+    </div>
+  )
+}
+```
+
+## 8. Ensure Accessibility (WCAG Guidelines)
+
+Create accessible components:
+
+```tsx
+function AccessibleButton({ children, ...props }) {
+  return (
+    <button
+      className="
+        bg-primary 
+        text-primary-foreground 
+        p-2 
+        rounded 
+        focus:outline-none 
+        focus:ring-2 
+        focus:ring-ring 
+        focus:ring-offset-2
+      "
+      aria-label="Accessible Button"
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
+```
+
+## 9. Keep Styles Modular and Reusable
+
+Create reusable style utilities:
+
+```tsx
+const cardStyles = cn(
+  "p-4 rounded-lg border border-border",
+  "hover:shadow-md transition-shadow",
+  "dark:bg-background-dark"
+)
+
+function Card({ children }) {
+  return <div className={cardStyles}>{children}</div>
+}
+```
+
+## 10. Optimize Bundle Size with Conditional Styling
+
+Use the `cn` library for efficient class management:
+
+```tsx
+import { cn } from "@/lib/utils"
+
+function OptimizedComponent({ isActive, variant }) {
+  return (
+    <div 
+      className={cn(
+        "base-styles",
+        isActive && "active-styles",
+        variant === 'primary' && "primary-variant",
+        variant === 'secondary' && "secondary-variant"
+      )}
+    >
+      Optimized Conditional Styling
+    </div>
+  )
+}
+```
+
+**Pro Tips:**
+- Always use the `cn()` utility for dynamic class composition
+- Prefer Tailwind's utility classes over custom CSS
+- Keep components lightweight and focused
+- Use semantic HTML5 elements
+- Test thoroughly across different devices and color schemes

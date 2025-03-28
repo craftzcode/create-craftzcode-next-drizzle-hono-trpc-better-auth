@@ -8,41 +8,217 @@ description:
 globs: packages/api/**/*.ts,packages/api/**/*.tsx
 alwaysApply: false
 ---
-- Use descriptive, domain-specific names for routers (e.g., `userRouter`, `authRouter`, etc.)
-- Each router should be in its own file under a `routers` directory
-- Group related procedures within the same router
-  ```ts
-  export const userRouter = createTRPCRouter({
-    getProfile: publicProcedure...
-    updateProfile: protectedProcedure...
-  })
+# tRPC Router Design Guidelines
+
+## 1. Naming Conventions
+
+### Router Naming
+- **Rule**: Use descriptive, domain-specific names for routers
+- **Best Practice**: Name routers based on their primary domain or resource
+- **Example**:
+  ```typescript
+  // Bad: generic naming
+  const appRouter = createTRPCRouter({...})
+
+  // Good: specific, domain-driven naming
+  const userRouter = createTRPCRouter({...})
+  const authRouter = createTRPCRouter({...})
+  const inventoryRouter = createTRPCRouter({...})
   ```
-- Use `publicProcedure` for unauthenticated endpoints
-- Use `protectedProcedure` for authenticated endpoints
-- Create custom middleware procedures for specific authorization checks
-  ```ts
+
+## 2. Router File Structure
+
+### File Organization
+- **Rule**: Each router should be in its own file under a `routers` directory
+- **Recommended Structure**:
+  ```
+  api/
+  └── src/
+      ├── routers/
+      │   ├── user.ts
+      │   ├── auth.ts
+      │   ├── inventory.ts
+      │   └── order.ts
+      └── root.ts
+  ```
+
+## 3. Procedure Grouping and Organization
+
+### Related Procedures
+- **Rule**: Group related procedures within the same router
+- **Example**:
+  ```typescript
+  export const userRouter = createTRPCRouter({
+    // User profile-related procedures
+    getProfile: publicProcedure
+      .query(({ ctx }) => {
+        return ctx.prisma.user.findMany();
+      }),
+    
+    updateProfile: protectedProcedure
+      .input(updateProfileSchema)
+      .mutation(({ ctx, input }) => {
+        return ctx.prisma.user.update({
+          where: { id: ctx.user.id },
+          data: input
+        });
+      }),
+    
+    // User management procedures
+    listUsers: protectedProcedure
+      .use(adminMiddleware)
+      .query(({ ctx }) => {
+        return ctx.prisma.user.findMany();
+      })
+  });
+  ```
+
+## 4. Procedure Type Usage
+
+### Authentication Levels
+- **Rule**: Use appropriate procedure types for different access levels
+- **Example**:
+  ```typescript
+  // Public endpoints (no authentication required)
+  const userRouter = createTRPCRouter({
+    getPublicUserProfile: publicProcedure
+      .input(z.object({ username: z.string() }))
+      .query(({ input }) => {
+        // Fetch public user information
+      })
+  });
+
+  // Protected endpoints (authenticated users only)
+  const profileRouter = createTRPCRouter({
+    updatePersonalInfo: protectedProcedure
+      .input(updateProfileSchema)
+      .mutation(({ ctx, input }) => {
+        // Update user's own profile
+        return ctx.prisma.user.update({
+          where: { id: ctx.user.id },
+          data: input
+        });
+      })
+  });
+  ```
+
+## 5. Custom Middleware for Authorization
+
+### Advanced Authorization Checks
+- **Rule**: Create custom middleware procedures for specific authorization checks
+- **Example**:
+  ```typescript
+  // Admin-only middleware
   const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
-    if (!ctx.user.isAdmin) throw new TRPCError({ code: 'UNAUTHORIZED' })
-    return next()
-  })
+    if (!ctx.user.isAdmin) {
+      throw new TRPCError({ 
+        code: 'FORBIDDEN', 
+        message: 'Admin access required' 
+      });
+    }
+    return next();
+  });
+
+  // Role-based authorization router
+  const managementRouter = createTRPCRouter({
+    // Only accessible by admin users
+    deleteUser: adminProcedure
+      .input(z.object({ userId: z.string() }))
+      .mutation(({ input }) => {
+        // User deletion logic
+      }),
+
+    // Accessible by managers and admins
+    generateReport: protectedProcedure
+      .use(({ ctx, next }) => {
+        if (!ctx.user.isManager && !ctx.user.isAdmin) {
+          throw new TRPCError({ 
+            code: 'FORBIDDEN', 
+            message: 'Management access required' 
+          });
+        }
+        return next();
+      })
+      .query(() => {
+        // Report generation logic
+      })
+  });
   ```
-- Always validate input using Zod schemas
-- Define reusable schemas in a separate `schemas` directory
-- Use strict type checking with `.strict()`
-  ```ts
-  const updateUserSchema = z.object({
-    name: z.string().min(2),
-    email: z.string().email()
-  }).strict()
+
+## 6. Input Validation
+
+### Schema Validation
+- **Rule**: Always validate input using Zod schemas
+- **Example**:
+  ```typescript
+  // Separate schemas directory
+  // src/schemas/user.schema.ts
+  export const createUserSchema = z.object({
+    name: z.string().min(2, "Name too short"),
+    email: z.string().email("Invalid email format"),
+    age: z.number().min(18, "Must be 18 or older")
+  }).strict();
+
+  // Router implementation
+  const userRouter = createTRPCRouter({
+    createUser: publicProcedure
+      .input(createUserSchema)
+      .mutation(({ input }) => {
+        // User creation logic with validated input
+      })
+  });
   ```
-- Use semantic naming for queries and mutations
-- Prefix mutations with verbs (create, update, delete)
-- Use nouns for queries
-  ```ts
-  export const userRouter = createTRPCRouter({
-    getUser: publicProcedure...
-    createUser: protectedProcedure...
-    updateUserProfile: protectedProcedure...
-  })
+
+## 7. Semantic Naming Conventions
+
+### Query and Mutation Naming
+- **Rule**: Use semantic naming with clear, descriptive names
+- **Example**:
+  ```typescript
+  const productRouter = createTRPCRouter({
+    // Queries (nouns)
+    getProduct: publicProcedure
+      .input(z.object({ id: z.string() }))
+      .query(({ input }) => {
+        // Fetch product details
+      }),
+    
+    listProducts: publicProcedure
+      .query(() => {
+        // Retrieve list of products
+      }),
+
+    // Mutations (verb-prefixed)
+    createProduct: protectedProcedure
+      .input(createProductSchema)
+      .mutation(({ input }) => {
+        // Create new product
+      }),
+
+    updateProduct: protectedProcedure
+      .input(updateProductSchema)
+      .mutation(({ input }) => {
+        // Update existing product
+      }),
+
+    deleteProduct: protectedProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(({ input }) => {
+        // Remove product
+      })
+  });
   ```
-- For any logic or algorithm implemented in variables, functions, components, hooks, or helper functions (such as those in `lib/utils`) or any kind that has a logic, algorithm, or conditional, always include comprehensive documentation. Use inline comments or JSDoc to provide explanations, instructions, usage details, and examples
+
+## Best Practices Summary
+- Keep routers focused and domain-specific
+- Use appropriate authentication levels
+- Implement robust input validation
+- Create clear, semantic procedure names
+- Use middleware for advanced authorization
+- Maintain a consistent file and naming structure
+
+## Common Pitfalls to Avoid
+- Avoid mixing concerns in a single router
+- Don't skip input validation
+- Be cautious with overly broad public procedures
+- Prevent unauthorized access with proper middleware
