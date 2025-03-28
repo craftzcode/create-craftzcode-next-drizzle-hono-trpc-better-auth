@@ -1,0 +1,44 @@
+{
+  "name": "@rhu-ii/api",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./client": {
+      "types": "./dist/src/client/index.d.tsx",
+      "default": "./src/client/index.tsx"
+    },
+    "./server": {
+      "types": "./dist/src/server/index.d.tsx",
+      "default": "./src/server/index.tsx"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit",
+    "clean": "git clean -xdf .cache .turbo node_modules"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.69.0",
+    "@trpc/client": "^11.0.0",
+    "@trpc/server": "^11.0.0",
+    "@trpc/tanstack-react-query": "^11.0.0",
+    "client-only": "^0.0.1",
+    "server-only": "^0.0.1",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@rhu-ii/eslint-config": "*",
+    "@rhu-ii/prettier-config": "*",
+    "@rhu-ii/typescript-config": "*",
+    "eslint": "^9.22.0",
+    "typescript": "5.8.2"
+  },
+  "prettier": "@rhu-ii/prettier-config"
+}
