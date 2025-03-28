@@ -4,6 +4,8 @@ import './globals.css'
 
 import { Open_Sans } from 'next/font/google'
 
+import { TRPCReactProvider } from '@rhu-ii/api/client'
+
 import { Main } from '../components/main'
 import { NavigationMenu } from '../components/navigation-menu'
 
@@ -104,8 +106,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${openSans.variable} antialiased`}>
-        <NavigationMenu />
-        <Main>{children}</Main>
+        <TRPCReactProvider>
+          <NavigationMenu />
+          <Main>{children}</Main>
+        </TRPCReactProvider>
       </body>
     </html>
   )
