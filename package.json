@@ -8,12 +8,11 @@
     "dev:web": "turbo run dev -F web",
     "db:push": "turbo -F @rhu-ii/db push",
     "db:studio": "turbo -F @rhu-ii/db studio",
+    "ui-add": "turbo run ui-add -F @rhu-ii/ui --",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "ui-add": "turbo run ui-add -F @rhu-ii/ui --",
-    "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo run clean"
+    "clean": "bunx turbo run clean && git clean -xdf .cache .turbo node_modules"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
