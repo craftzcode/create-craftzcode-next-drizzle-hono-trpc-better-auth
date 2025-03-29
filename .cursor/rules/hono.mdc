@@ -1,10 +1,5 @@
 ---
 description: 
-globs: 
-alwaysApply: false
----
----
-description: 
 globs: packages/api/**/*.ts,packages/api/**/*.tsx
 alwaysApply: false
 ---
