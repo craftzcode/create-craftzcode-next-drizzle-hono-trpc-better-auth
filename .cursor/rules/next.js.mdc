@@ -1,10 +1,5 @@
 ---
 description: 
-globs: 
-alwaysApply: false
----
----
-description: 
 globs: apps/docs/**/*.ts,apps/docs/**/*.tsx,apps/web/**/*.ts,apps/web/**/*.tsx
 alwaysApply: false
 ---

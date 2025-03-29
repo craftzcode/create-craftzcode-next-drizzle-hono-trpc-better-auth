@@ -1,0 +1,48 @@
+{
+  "name": "@rhu-ii/api",
+  "version": "0.0.0",
+  "devDependencies": {
+    "@rhu-ii/eslint-config": "*",
+    "@rhu-ii/prettier-config": "*",
+    "@rhu-ii/typescript-config": "*",
+    "eslint": "^9.22.0",
+    "typescript": "5.8.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.tsx",
+      "default": "./dist/client/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.tsx",
+      "default": "./dist/server/index.js"
+    },
+    "./server/routers": {
+      "types": "./dist/server/routers/index.d.ts",
+      "default": "./dist/server/routers/index.js"
+    }
+  },
+  "prettier": "@rhu-ii/prettier-config",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit",
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
+  },
+  "type": "module",
+  "dependencies": {
+    "@tanstack/react-query": "^5.70.0",
+    "@trpc/client": "^11.0.1",
+    "@trpc/server": "^11.0.1",
+    "@trpc/tanstack-react-query": "^11.0.1",
+    "client-only": "^0.0.1",
+    "server-only": "^0.0.1",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.2"
+  }
+}
