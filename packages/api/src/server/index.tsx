@@ -19,32 +19,27 @@ export const trpc = createTRPCOptionsProxy({
   queryClient: getQueryClient
 })
 // If your router is on a separate server, pass a client:
-createTRPCOptionsProxy({
-  client: createTRPCClient({
-    links: [httpLink({ url: '...' })]
-  }),
-  queryClient: getQueryClient
-})
+// createTRPCOptionsProxy({
+//   client: createTRPCClient({
+//     links: [httpLink({ url: '...' })]
+//   }),
+//   queryClient: getQueryClient
+// })
 
 // You can also create a prefetch and HydrateClient helper functions to make it a bit more consice and reusable
-// export function HydrateClient(props: { children: React.ReactNode }) {
-//   const queryClient = getQueryClient();
-//   return (
-//     <HydrationBoundary state={dehydrate(queryClient)}>
-//       {props.children}
-//     </HydrationBoundary>
-//   );
-// }
-// export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
-//   queryOptions: T,
-// ) {
-//   const queryClient = getQueryClient();
-//   if (queryOptions.queryKey[1]?.type === 'infinite') {
-//     void queryClient.prefetchInfiniteQuery(queryOptions as any);
-//   } else {
-//     void queryClient.prefetchQuery(queryOptions);
-//   }
-// }
+export function HydrateClient(props: { children: React.ReactNode }) {
+  const queryClient = getQueryClient()
+  return <HydrationBoundary state={dehydrate(queryClient)}>{props.children}</HydrationBoundary>
+}
+
+export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(queryOptions: T) {
+  const queryClient = getQueryClient()
+  if (queryOptions.queryKey[1]?.type === 'infinite') {
+    void queryClient.prefetchInfiniteQuery(queryOptions as any)
+  } else {
+    void queryClient.prefetchQuery(queryOptions)
+  }
+}
 
 // Then you can use it like this
 // import { HydrateClient, prefetch, trpc } from '~/trpc/server';
