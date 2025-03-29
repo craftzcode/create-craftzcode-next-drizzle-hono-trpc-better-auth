@@ -2,8 +2,6 @@ import { cache } from 'react'
 
 import { initTRPC } from '@trpc/server'
 
-import { AppRouter, appRouter } from './server/routers'
-
 export const createTRPCContext = cache(async () => {
   /**
    * @see: https://trpc.io/docs/server/context
@@ -25,5 +23,3 @@ export const createTRPCRouter = t.router
 export const createCallerFactory = t.createCallerFactory
 export const publicProcedure = t.procedure
 // TODO: Add Protected Procedure
-export { appRouter }
-export type { AppRouter }
