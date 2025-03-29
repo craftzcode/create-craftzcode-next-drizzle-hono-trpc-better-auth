@@ -19,7 +19,7 @@
     "studio": "bunx drizzle-kit studio",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
-    "clean": "git clean -xdf .cache .turbo node_modules"
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "devDependencies": {
     "@rhu-ii/eslint-config": "*",
