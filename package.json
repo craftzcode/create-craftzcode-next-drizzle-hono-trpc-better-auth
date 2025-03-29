@@ -12,7 +12,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "clean": "bunx turbo run clean && git clean -xdf .cache .turbo node_modules"
+    "clean": "turbo run clean",
+    "postclean": "git clean -xdf .cache .turbo node_modules"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
