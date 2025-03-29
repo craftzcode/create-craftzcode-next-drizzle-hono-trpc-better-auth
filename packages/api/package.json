@@ -10,22 +10,26 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/src/index.d.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./client": {
-      "types": "./dist/src/client/index.d.tsx",
-      "default": "./src/client/index.tsx"
+      "types": "./dist/client/index.d.tsx",
+      "default": "./dist/client/index.js"
     },
     "./server": {
-      "types": "./dist/src/server/index.d.tsx",
-      "default": "./src/server/index.tsx"
+      "types": "./dist/server/index.d.tsx",
+      "default": "./dist/server/index.js"
+    },
+    "./server/routers": {
+      "types": "./dist/server/routers/index.d.ts",
+      "default": "./dist/server/routers/index.js"
     }
   },
   "prettier": "@rhu-ii/prettier-config",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
     "clean": "git clean -xdf .cache .turbo dist node_modules"
