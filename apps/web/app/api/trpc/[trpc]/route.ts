@@ -1,4 +1,5 @@
-import { appRouter, createTRPCContext } from '@rhu-ii/api'
+import { createTRPCContext } from '@rhu-ii/api'
+import { appRouter } from '@rhu-ii/api/server/routers'
 
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 
