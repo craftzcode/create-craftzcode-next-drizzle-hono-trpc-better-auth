@@ -5,16 +5,16 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./src/index.ts"
+      "default": "./dist/index.js"
     },
     "./schema": {
-      "types": "./dist/src/schema/index.d.ts",
-      "default": "./src/schema/index.ts"
+      "types": "./dist/schema/index.d.ts",
+      "default": "./dist/schema/index.js"
     }
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
     "push": "bunx drizzle-kit push",
     "studio": "bunx drizzle-kit studio",
     "lint": "eslint . --max-warnings 0",
