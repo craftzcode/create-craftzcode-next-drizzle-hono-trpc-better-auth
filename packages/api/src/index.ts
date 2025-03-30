@@ -1,27 +1,24 @@
-import { cache } from 'react'
+import { trpcServer } from '@hono/trpc-server' // Deno 'npm:@hono/trpc-server'
+import { Hono } from 'hono'
 
-import superjson from 'superjson'
+import { appRouter } from './server/routers'
+import { createTRPCContext } from './trpc'
 
-import { initTRPC } from '@trpc/server'
+const app = new Hono().basePath('/api')
 
-export const createTRPCContext = cache(async () => {
-  /**
-   * @see: https://trpc.io/docs/server/context
-   */
-  return { userId: 'user_123' }
+app.use(
+  '/trpc/*',
+  trpcServer({
+    endpoint: '/api/trpc',
+    router: appRouter,
+    createContext: createTRPCContext
+  })
+)
+
+app.get('/status', c => {
+  return c.json({
+    message: 'Hono Router: Hono + tRPC'
+  })
 })
-// Avoid exporting the entire t-object
-// since it's not very descriptive.
-// For instance, the use of a t variable
-// is common in i18n libraries.
-const t = initTRPC.create({
-  /**
-   * @see https://trpc.io/docs/server/data-transformers
-   */
-  transformer: superjson
-})
-// Base router and procedure helpers
-export const createTRPCRouter = t.router
-export const createCallerFactory = t.createCallerFactory
-export const publicProcedure = t.procedure
-// TODO: Add Protected Procedure
+
+export default app
