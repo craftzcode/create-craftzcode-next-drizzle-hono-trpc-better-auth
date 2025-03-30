@@ -7,8 +7,8 @@ import { createTRPCClient, httpLink } from '@trpc/client'
 import { createTRPCOptionsProxy, TRPCQueryOptions } from '@trpc/tanstack-react-query'
 
 import { makeQueryClient } from '../client/query-client'
-import { createTRPCContext } from '../index'
-import { appRouter } from './routers/index'
+import { createTRPCContext } from '../trpc'
+import { appRouter } from './routers'
 
 // IMPORTANT: Create a stable getter for the query client that
 //            will return the same client during the same request.
