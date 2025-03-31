@@ -4,6 +4,7 @@ import { auth } from '@rhu-ii/auth'
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
 
+import { createTRPCContext } from './lib/context'
 import { appRouter } from './server/routers'
 
 /**
@@ -35,7 +36,10 @@ app.use(
      * - Client-side tRPC calls will connect to the correct endpoint URL
      */
     endpoint: '/api/trpc',
-    router: appRouter
+    router: appRouter,
+    createContext: (_opts, c) => {
+      return createTRPCContext(c)
+    }
   })
 )
 
