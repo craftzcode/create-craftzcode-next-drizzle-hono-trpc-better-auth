@@ -1,0 +1,8 @@
+{
+  "extends": "@rhu-ii/typescript-config/internal-library.json",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
