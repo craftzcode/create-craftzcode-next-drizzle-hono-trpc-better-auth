@@ -1,27 +1,41 @@
-import { cache } from 'react'
+import { trpcServer } from '@hono/trpc-server' // Deno 'npm:@hono/trpc-server'
+import { Hono } from 'hono'
 
-import superjson from 'superjson'
+import { appRouter } from './server/routers'
 
-import { initTRPC } from '@trpc/server'
+/**
+ * We use basePath('/api') to prefix all routes with '/api'.
+ * This ensures our API endpoints are properly namespaced under /api/
+ * (e.g., localhost:3000/api/status instead of localhost:3000/status).
+ *
+ * Benefits:
+ * - Clear separation between API routes and other routes (like frontend pages)
+ * - Better organization and maintainability
+ * - Follows REST API best practices for route structuring
+ */
+const app = new Hono().basePath('/api')
 
-export const createTRPCContext = cache(async () => {
-  /**
-   * @see: https://trpc.io/docs/server/context
-   */
-  return { userId: 'user_123' }
+app.use(
+  '/trpc/*',
+  trpcServer({
+    /**
+     * The endpoint parameter defines the full URL path for tRPC API requests.
+     * We set it to '/api/trpc' to match our basePath prefix + the trpc route.
+     *
+     * This ensures that:
+     * - All tRPC requests are properly routed to the correct handler
+     * - The path matches our basePath('/api') configuration
+     * - Client-side tRPC calls will connect to the correct endpoint URL
+     */
+    endpoint: '/api/trpc',
+    router: appRouter
+  })
+)
+
+app.get('/status', c => {
+  return c.json({
+    message: 'Hono Router: Hono + tRPC'
+  })
 })
-// Avoid exporting the entire t-object
-// since it's not very descriptive.
-// For instance, the use of a t variable
-// is common in i18n libraries.
-const t = initTRPC.create({
-  /**
-   * @see https://trpc.io/docs/server/data-transformers
-   */
-  transformer: superjson
-})
-// Base router and procedure helpers
-export const createTRPCRouter = t.router
-export const createCallerFactory = t.createCallerFactory
-export const publicProcedure = t.procedure
-// TODO: Add Protected Procedure
+
+export default app
