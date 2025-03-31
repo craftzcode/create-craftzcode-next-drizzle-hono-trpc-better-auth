@@ -36,6 +36,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@rhu-ii/auth": "*",
     "@hono/trpc-server": "^0.3.4",
     "@tanstack/react-query": "^5.70.0",
     "@trpc/client": "^11.0.1",

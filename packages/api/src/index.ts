@@ -1,5 +1,8 @@
 import { trpcServer } from '@hono/trpc-server' // Deno 'npm:@hono/trpc-server'
+
+import { auth } from '@rhu-ii/auth'
 import { Hono } from 'hono'
+import { logger } from 'hono/logger'
 
 import { appRouter } from './server/routers'
 
@@ -14,6 +17,10 @@ import { appRouter } from './server/routers'
  * - Follows REST API best practices for route structuring
  */
 const app = new Hono().basePath('/api')
+
+app.use(logger())
+
+app.on(['POST', 'GET'], '/api/auth/**', c => auth.handler(c.req.raw))
 
 app.use(
   '/trpc/*',
