@@ -1,0 +1,34 @@
+{
+  "name": "@rhu-ii/auth",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit",
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/auth-client.d.tsx",
+      "default": "./dist/auth-client.js"
+    }
+  },
+  "dependencies": {
+    "@rhu-ii/db": "workspace:*",
+    "better-auth": "^1.2.5"
+  },
+  "devDependencies": {
+    "@rhu-ii/eslint-config": "*",
+    "@rhu-ii/prettier-config": "*",
+    "@rhu-ii/typescript-config": "*",
+    "eslint": "^9.22.0",
+    "typescript": "5.8.2"
+  },
+  "prettier": "@rhu-ii/prettier-config"
+}
