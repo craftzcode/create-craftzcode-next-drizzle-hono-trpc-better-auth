@@ -2,7 +2,6 @@ import { trpcServer } from '@hono/trpc-server' // Deno 'npm:@hono/trpc-server'
 import { Hono } from 'hono'
 
 import { appRouter } from './server/routers'
-import { createTRPCContext } from './trpc'
 
 /**
  * We use basePath('/api') to prefix all routes with '/api'.
@@ -29,8 +28,7 @@ app.use(
      * - Client-side tRPC calls will connect to the correct endpoint URL
      */
     endpoint: '/api/trpc',
-    router: appRouter,
-    createContext: createTRPCContext
+    router: appRouter
   })
 )
 
