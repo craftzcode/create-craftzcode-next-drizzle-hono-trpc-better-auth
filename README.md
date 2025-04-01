@@ -1323,7 +1323,7 @@ Your choice between them should depend on your project's specific needs regardin
            
            export { handler as GET, handler as POST }
            ```
-           - GIT COMMIT: `git commit -m "feat(api): integrate tRPC with Next.js route and update web dependencies"`
+           - GIT COMMIT: `git commit -m "feat(api): integrate tRPC with Next.js route and update dependencies"`
   - Pull Request Title: `feat(backend): add tRPC for end-to-end type safety`
     
 11. Integrate Hono.js in tRPC (Optional)
