@@ -232,7 +232,7 @@ Your choice between them should depend on your project's specific needs regardin
 3.  Remove bolierplates and add script for `clean` and running dev with filtering both `docs` and `web`
     - Remove boilerplates
       - Delete `page.module.css` and all of code inside of `page.tsx` both on `docs and web`.
-      - GIT COMMIT: `git commit -m "refactor(docs|web): delete boilerplates"`
+      - GIT COMMIT: `git commit -m "refactor(docs, web): delete boilerplates"`
 
     - Add `paths` in `compilerOptions` of `tsconfig.json` both `docs` and `web`
       ```json
@@ -240,7 +240,7 @@ Your choice between them should depend on your project's specific needs regardin
         "@/*": ["./src/*"]
       }
       ```
-      - GIT COMMIT: `git commit -m "refactor(docs|web): add paths in compilerOptions of tsconfig"`
+      - GIT COMMIT: `git commit -m "refactor(docs, web): add paths in compilerOptions of tsconfig"`
 
     - Add clean script
       - Add the clean script in all workspace `package.json`.
