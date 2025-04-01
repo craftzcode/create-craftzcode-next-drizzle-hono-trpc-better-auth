@@ -33,8 +33,8 @@ alwaysApply: false
       │   ├── user.ts
       │   ├── auth.ts
       │   ├── inventory.ts
-      │   └── order.ts
-      └── root.ts
+      │   └── index.ts
+      └── other files
   ```
 
 ## 3. Procedure Grouping and Organization
