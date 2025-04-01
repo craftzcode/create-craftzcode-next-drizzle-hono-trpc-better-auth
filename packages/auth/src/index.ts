@@ -1,5 +1,5 @@
-import { db } from '@rhu-ii/db' // your drizzle instance
-import { account, session, user, verification } from '@rhu-ii/db/schema'
+import { db } from '@craftzcode/db' // your drizzle instance
+import { account, session, user, verification } from '@craftzcode/db/schema'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 

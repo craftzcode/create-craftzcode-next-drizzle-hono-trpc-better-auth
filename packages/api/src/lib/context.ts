@@ -1,6 +1,6 @@
 import { cache } from 'react'
 
-import { auth } from '@rhu-ii/auth'
+import { auth } from '@craftzcode/auth'
 import type { Context as HonoContext } from 'hono'
 
 /**

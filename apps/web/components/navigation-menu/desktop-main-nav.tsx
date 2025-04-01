@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { Button } from '@craftzcode/ui/components/button'
+import { cn } from '@craftzcode/ui/lib/utils'
 import { RiBox3Line, RiGroupLine, RiShapeLine, RiTruckLine } from '@remixicon/react'
-import { Button } from '@rhu-ii/ui/components/button'
-import { cn } from '@rhu-ii/ui/lib/utils'
 
 export const DesktopMainNav = () => {
   const pathname = usePathname()

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
+import { cn } from '@craftzcode/ui/lib/utils'
 import { Slot } from '@radix-ui/react-slot'
-import { cn } from '@rhu-ii/ui/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const badgeVariants = cva(

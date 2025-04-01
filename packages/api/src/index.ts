@@ -1,6 +1,6 @@
+import { auth } from '@craftzcode/auth'
 import { trpcServer } from '@hono/trpc-server' // Deno 'npm:@hono/trpc-server'
 
-import { auth } from '@rhu-ii/auth'
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
 

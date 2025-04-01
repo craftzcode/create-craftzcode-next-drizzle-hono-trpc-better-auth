@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 
-import { buttonVariants } from '@rhu-ii/ui/components/button'
-import { cn } from '@rhu-ii/ui/lib/utils'
+import { buttonVariants } from '@craftzcode/ui/components/button'
+import { cn } from '@craftzcode/ui/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { DayPicker } from 'react-day-picker'
 

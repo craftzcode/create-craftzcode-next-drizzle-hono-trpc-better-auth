@@ -8,8 +8,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle
-} from '@rhu-ii/ui/components/dialog'
-import { cn } from '@rhu-ii/ui/lib/utils'
+} from '@craftzcode/ui/components/dialog'
+import { cn } from '@craftzcode/ui/lib/utils'
 import { Command as CommandPrimitive } from 'cmdk'
 import { SearchIcon } from 'lucide-react'
 

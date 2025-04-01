@@ -1,5 +1,5 @@
 {
-  "extends": "@rhu-ii/typescript-config/internal-library.json",
+  "extends": "@craftzcode/typescript-config/internal-library.json",
   "compilerOptions": {
     "jsx": "react-jsx"
   },

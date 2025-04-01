@@ -4,7 +4,7 @@ import './globals.css'
 
 import { Open_Sans } from 'next/font/google'
 
-import { TRPCReactProvider } from '@rhu-ii/api/client'
+import { TRPCReactProvider } from '@craftzcode/api/client'
 
 import { Main } from '../components/main'
 import { NavigationMenu } from '../components/navigation-menu'

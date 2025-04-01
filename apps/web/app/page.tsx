@@ -1,5 +1,5 @@
-// import { getQueryClient, trpc } from '@rhu-ii/api/server'
-import { HydrateClient, prefetch, trpc } from '@rhu-ii/api/server'
+// import { getQueryClient, trpc } from '@craftzcode/api/server'
+import { HydrateClient, prefetch, trpc } from '@craftzcode/api/server'
 
 // import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 

@@ -1,5 +1,5 @@
 {
-  "name": "@rhu-ii/auth",
+  "name": "@craftzcode/auth",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -20,15 +20,15 @@
     }
   },
   "dependencies": {
-    "@rhu-ii/db": "workspace:*",
+    "@craftzcode/db": "workspace:*",
     "better-auth": "^1.2.5"
   },
   "devDependencies": {
-    "@rhu-ii/eslint-config": "*",
-    "@rhu-ii/prettier-config": "*",
-    "@rhu-ii/typescript-config": "*",
+    "@craftzcode/eslint-config": "*",
+    "@craftzcode/prettier-config": "*",
+    "@craftzcode/typescript-config": "*",
     "eslint": "^9.22.0",
     "typescript": "5.8.2"
   },
-  "prettier": "@rhu-ii/prettier-config"
+  "prettier": "@craftzcode/prettier-config"
 }
