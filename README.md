@@ -295,7 +295,8 @@ Your choice between them should depend on your project's specific needs regardin
     - Configure TypeScript & ESLint
       - Create a new folder named `config` in the root of your project.
       - Move the `typescript-config` and `eslint-config` into the `config` folder.
-      - Create a `internal-library.json` in `config/typescript-config` directory to centralize custom TypeScript settings for internal libraries.
+      - Rename all instance both `typescript-config` and `eslint-config` into `typescript` and `eslint`.
+      - Create a `internal-library.json` in `config/typescript` directory to centralize custom TypeScript settings for internal libraries.
         ```json
         {
           "$schema": "https://json.schemastore.org/tsconfig",
@@ -351,11 +352,11 @@ Your choice between them should depend on your project's specific needs regardin
     - GIT BRANCH: `git checkout -b infrastructure/chore/2-shared-config`
 
     - Create the Prettier Config Package
-      - Create a folder called `prettier-config` inside the `config` folder.
-      - Inside `config/prettier-config`, create a `package.json` file with the following content.
+      - Create a folder called `prettier` inside the `config` folder.
+      - Inside `config/prettier`, create a `package.json` file with the following content.
         ```json
         {
-          "name": "@craftzcode/prettier-config",
+          "name": "@craftzcode/prettier",
           "version": "0.0.0",
           "private": true,
           "type": "module",
@@ -367,16 +368,16 @@ Your choice between them should depend on your project's specific needs regardin
             "clean": "git clean -xdf .cache .turbo node_modules"
           },
           "devDependencies": {
-            "@craftzcode/eslint-config": "*"
+            "@craftzcode/eslint": "*"
           },
-          "prettier": "@craftzcode/prettier-config"
+          "prettier": "@craftzcode/prettier"
         }
         ```
-      - Go to the location of your `prettier-config` folder in shell then install `prettier` and `plugins`.
+      - Go to the location of your `prettier` folder in shell then install `prettier` and `plugins`.
         ```shell
         bun add -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-tailwindcss
         ```
-      - Inside the `config/prettier-config` folder, create an `index.js` file with the following content.
+      - Inside the `config/prettier` folder, create an `index.js` file with the following content.
         ```js
         /** @typedef {import("prettier").Config} PrettierConfig */
         /** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
@@ -466,16 +467,16 @@ Your choice between them should depend on your project's specific needs regardin
 
         export default config;
         ```
-      - Add `"@craftzcode/prettier-config": "*"` in the `devDependencies` of `package.json` where workspace are you currently working on it.
-      - Add `"prettier": "@craftzcode/prettier-config"` in the `package.json` where workspace are you currently working on it.
+      - Add `"@craftzcode/prettier": "*"` in the `devDependencies` of `package.json` where workspace are you currently working on it.
+      - Add `"prettier": "@craftzcode/prettier"` in the `package.json` where workspace are you currently working on it.
       - GIT COMMIT: `git commit -m "chore(prettier): add shared prettier config for all workspaces"`
 
     - Create the Tailwind CSS Config Package
-      - Inside the `config` folder, create a new folder named `tailwind-config`.
-      - Inside `config/tailwind-config`, create a `package.json` file with the following content.
+      - Inside the `config` folder, create a new folder named `tailwind`.
+      - Inside `config/tailwind`, create a `package.json` file with the following content.
         ```json
         {
-          "name": "@craftzcode/tailwind-config",
+          "name": "@craftzcode/tailwind",
           "version": "0.1.0",
           "private": true,
           "type": "module",
@@ -488,19 +489,19 @@ Your choice between them should depend on your project's specific needs regardin
             "clean": "git clean -xdf .cache .turbo node_modules"
           },
           "devDependencies": {
-            "@craftzcode/eslint-config": "*",
-            "@craftzcode/prettier-config": "*",
+            "@craftzcode/eslint": "*",
+            "@craftzcode/prettier": "*",
             "eslint": "^9.22.0"
           },
-          "prettier": "@craftzcode/prettier-config"
+          "prettier": "@craftzcode/prettier"
         }
         ```
-      - Go to the location of your `tailwind-config` folder in shell then install `tailwind`.
+      - Go to the location of your `tailwind` folder in shell then install `tailwind`.
         ```shell
         bun add -D tailwindcss @tailwindcss/postcss
         bun add tw-animate-css
         ```
-      - Inside the `config/tailwind-config` folder, create a file named `postcss.config.mjs` with the following content.
+      - Inside the `config/tailwind` folder, create a file named `postcss.config.mjs` with the following content.
         ```js
         const config = {
           plugins: ["@tailwindcss/postcss"],
@@ -508,9 +509,9 @@ Your choice between them should depend on your project's specific needs regardin
 
         export default config;
         ```
-      - Inside the same `config/tailwind-config` folder, create a file named `style.css` and copy and paste the content of `globals.css` in the existing next.js project with a latest shadcn and add also this `@source '../../packages/ui';` to include the shadcn shared config in `packages/ui`.
-      - Add `"@craftzcode/tailwind-config": "*"` in the `devDependencies` of `package.json` where web apps are you currently working on it.
-      - Add `@import "@craftzcode/tailwind-config/style.css";` in the `globals.css` where web apps are you currently working on it.
+      - Inside the same `config/tailwind` folder, create a file named `style.css` and copy and paste the content of `globals.css` in the existing next.js project with a latest shadcn and add also this `@source '../../packages/ui';` to include the shadcn shared config in `packages/ui`.
+      - Add `"@craftzcode/tailwind": "*"` in the `devDependencies` of `package.json` where web apps are you currently working on it.
+      - Add `@import "@craftzcode/tailwind/style.css";` in the `globals.css` where web apps are you currently working on it.
       - GIT COMMIT: `git commit -m "chore(tailwind): add shared tailwind css config for all workspaces"`
 
     - Setup shared shadcn-ui
@@ -535,10 +536,10 @@ Your choice between them should depend on your project's specific needs regardin
             "check-types": "tsc --noEmit"
           },
           "devDependencies": {
-            "@craftzcode/eslint-config": "*",
-            "@craftzcode/typescript-config": "*",
-            "@craftzcode/tailwind-config": "*",
-            "@craftzcode/prettier-config": "*",
+            "@craftzcode/eslint": "*",
+            "@craftzcode/typescript": "*",
+            "@craftzcode/tailwind": "*",
+            "@craftzcode/prettier": "*",
             "@turbo/gen": "^2.4.4",
             "@types/node": "^22.13.10",
             "@types/react": "19.0.10",
@@ -550,7 +551,7 @@ Your choice between them should depend on your project's specific needs regardin
             "react": "^19.0.0",
             "react-dom": "^19.0.0"
           },
-          "prettier": "@craftzcode/prettier-config"
+          "prettier": "@craftzcode/prettier"
         }
         ```
       - Go to the location of your `packages/ui` folder in shell then install shadcn-ui additional dependencies
@@ -560,7 +561,7 @@ Your choice between them should depend on your project's specific needs regardin
       - Edit (or create) the `tsconfig.json` file inside `packages/ui` with the following content.
         ```json
         {
-          "extends": "@craftzcode/typescript-config/react-library.json",
+          "extends": "@craftzcode/typescript/react-library.json",
           "compilerOptions": {
             "baseUrl": ".",
             "paths": {
@@ -589,7 +590,7 @@ Your choice between them should depend on your project's specific needs regardin
           "tsx": true,
           "tailwind": {
             "config": "",
-            "css": "../../config/tailwind-config/style.css",
+            "css": "../../config/tailwind/style.css",
             "baseColor": "neutral",
             "cssVariables": true,
             "prefix": ""
@@ -630,13 +631,13 @@ Your choice between them should depend on your project's specific needs regardin
 
     - How to use all shared config
       - Prettier Shared Config
-        1. Always add `"@craftzcode/prettier-config": "*"` in the `devDependencies` of `package.json` where workspace are you currently working on it.
-        2. Always add `"prettier": "@craftzcode/prettier-config"` in the `package.json` where workspace are you currently working on it.
+        1. Always add `"@craftzcode/prettier": "*"` in the `devDependencies` of `package.json` where workspace are you currently working on it.
+        2. Always add `"prettier": "@craftzcode/prettier"` in the `package.json` where workspace are you currently working on it.
       - Tailwind CSS Shared Config
-        1. Always add `"@craftzcode/tailwind-config": "*"` in the `devDependencies` of `package.json` where web apps are you currently working on it.
-        2. Always add `@import "@craftzcode/tailwind-config/style.css";` in the `globals.css` where web apps are you currently working on it.
+        1. Always add `"@craftzcode/tailwind": "*"` in the `devDependencies` of `package.json` where web apps are you currently working on it.
+        2. Always add `@import "@craftzcode/tailwind/style.css";` in the `globals.css` where web apps are you currently working on it.
       - Typescript and Eslint Shared Config
-        - Always add `typescript`, `"@craftzcode/typescript-config": "*"` and `eslint`, `"@craftzcode/eslint-config": "*"` on the `package.json` where workspace are you currently working on it.
+        - Always add `typescript`, `"@craftzcode/typescript": "*"` and `eslint`, `"@craftzcode/eslint": "*"` on the `package.json` where workspace are you currently working on it.
 
 7.  Add full `metadata` and change `font family`
     - GIT BRANCH: `git checkout -b frontend/feat/3-metadata-manifest-font-family`
@@ -751,7 +752,7 @@ Your choice between them should depend on your project's specific needs regardin
 
             ```
       
-    - Update `style.css` in the `config/tailwind-config/style.css` to change the `font family`.
+    - Update `style.css` in the `config/tailwind/style.css` to change the `font family`.
       ```css
       --font-sans: var(--font-open-sans);
       ```
@@ -807,13 +808,13 @@ Your choice between them should depend on your project's specific needs regardin
               "clean": "git clean -xdf .cache .turbo dist node_modules"
             },
             "devDependencies": {
-              "@craftzcode/eslint-config": "*",
-              "@craftzcode/prettier-config": "*",
-              "@craftzcode/typescript-config": "*",
+              "@craftzcode/eslint": "*",
+              "@craftzcode/prettier": "*",
+              "@craftzcode/typescript": "*",
               "eslint": "^9.22.0",
               "typescript": "5.8.2"
             },
-            "prettier": "@craftzcode/prettier-config"
+            "prettier": "@craftzcode/prettier"
           }
           ```
        - GIT COMMIT: `git commit -m "chore(db): add package.json for db package"`
@@ -840,7 +841,7 @@ Your choice between them should depend on your project's specific needs regardin
          - GIT COMMIT: `git commit -m "chore(turbo): add db push and studio scripts both root turbo.json and packages.json"`
      - Add `eslint.config.js` in `packages/db` with the following code
        ```js
-       import baseConfig from "@craftzcode/eslint-config/base";
+       import baseConfig from "@craftzcode/eslint/base";
 
        /** @type {import('typescript-eslint').Config} */
        export default [
@@ -853,7 +854,7 @@ Your choice between them should depend on your project's specific needs regardin
      - Add `tsconfig.json` in `packages/db` with the following code.
        ```json
        {
-       "extends": "@craftzcode/typescript-config/internal-library.json",
+       "extends": "@craftzcode/typescript/internal-library.json",
        "include": ["src"],
        "exclude": ["node_modules", "dist"]
        }
@@ -1041,19 +1042,19 @@ Your choice between them should depend on your project's specific needs regardin
            "clean": "git clean -xdf .cache .turbo dist node_modules"
          },
          "devDependencies": {
-           "@craftzcode/eslint-config": "*",
-           "@craftzcode/prettier-config": "*",
-           "@craftzcode/typescript-config": "*",
+           "@craftzcode/eslint": "*",
+           "@craftzcode/prettier": "*",
+           "@craftzcode/typescript": "*",
            "eslint": "^9.22.0",
            "typescript": "5.8.2"
          },
-         "prettier": "@craftzcode/prettier-config"
+         "prettier": "@craftzcode/prettier"
        }
        ```
        - GIT COMMIT: `git commit -m "chore(db): add package.json for db package"`
      - Add `eslint.config.js` in `packages/api` with the following code
        ```js
-       import baseConfig from "@craftzcode/eslint-config/base";
+       import baseConfig from "@craftzcode/eslint/base";
 
        /** @type {import('typescript-eslint').Config} */
        export default [
@@ -1066,7 +1067,7 @@ Your choice between them should depend on your project's specific needs regardin
      - Add `tsconfig.json` in `packages/api` with the following code.
        ```json
        {
-       "extends": "@craftzcode/typescript-config/internal-library.json",
+       "extends": "@craftzcode/typescript/internal-library.json",
        "compilerOptions": {
          "jsx": "react-jsx"
        },
@@ -1464,19 +1465,19 @@ Your choice between them should depend on your project's specific needs regardin
         "@rhu-ii/db": "workspace:*"
       },
       "devDependencies": {
-        "@rhu-ii/eslint-config": "*",
-        "@rhu-ii/prettier-config": "*",
-        "@rhu-ii/typescript-config": "*",
+        "@rhu-ii/eslint": "*",
+        "@rhu-ii/prettier": "*",
+        "@rhu-ii/typescript": "*",
         "eslint": "^9.22.0",
         "typescript": "5.8.2"
       },
-      "prettier": "@rhu-ii/prettier-config"
+      "prettier": "@rhu-ii/prettier"
      }
      ```
      - GIT COMMIT: `git commit -m "chore(auth): add package.json for auth package with db package"`
    - Add `eslint.config.js` in `packages/auth` with the following code.
      ```js
-     import baseConfig from "@rhu-ii/eslint-config/base";
+     import baseConfig from "@rhu-ii/eslint/base";
 
      /** @type {import('typescript-eslint').Config} */
      export default [
@@ -1489,7 +1490,7 @@ Your choice between them should depend on your project's specific needs regardin
    - Add `tsconfig.json` in `packages/auth` with the following code.
      ```json
      {
-      "extends": "@rhu-ii/typescript-config/internal-library.json",
+      "extends": "@rhu-ii/typescript/internal-library.json",
       "compilerOptions": {
         "jsx": "react-jsx"
       },
