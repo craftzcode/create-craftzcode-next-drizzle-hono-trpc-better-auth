@@ -515,7 +515,7 @@ Your choice between them should depend on your project's specific needs regardin
       - GIT COMMIT: `git commit -m "chore(tailwind): add shared tailwind css config for all workspaces"`
 
     - Setup shared shadcn-ui
-      - Delete all files inside the `packages/ui/src/components` folder to prepare for shadcn-ui’s generated components.
+      - Delete all files inside the `packages/ui/src` folder to prepare for shadcn-ui’s generated components.
       - Replace the contents of `packages/ui/package.json` with the following code.
         ```json
         {
