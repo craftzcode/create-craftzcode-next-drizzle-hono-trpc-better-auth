@@ -1023,7 +1023,7 @@ Your choice between them should depend on your project's specific needs regardin
            "./server": {
              "types": "./dist/server/index.d.tsx",
              "default": "./dist/server/index.js"
-           }
+           },
            "./server/routers": {
              "types": "./dist/server/index.d.ts",
              "default": "./dist/server/index.js"
