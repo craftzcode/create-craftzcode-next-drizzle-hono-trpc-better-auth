@@ -1111,7 +1111,8 @@ Your choice between them should depend on your project's specific needs regardin
          export const publicProcedure = t.procedure
          // TODO: Add Protected Procedure
          ```
-       - Create `routers` folder in `packages/api/src` and create a `_app.ts/index.ts` file in the `packages/api/src/server/routers` add this root tRPC route.
+         - GIT COMMIT: `git commit -m "feat(api): add tRPC initialization"`
+       - Create a `_app.ts/index.ts` file in the `packages/api/src/server/routers` add this root tRPC route.
          ```ts
          import { z } from 'zod'
 
@@ -1134,7 +1135,8 @@ Your choice between them should depend on your project's specific needs regardin
          // export type definition of API
          export type AppRouter = typeof appRouter
          ```
-       - Create `client` folder in `packages/api/src` and create a shared file `packages/api/src/client/query-client.ts` that exports a function that creates a `QueryClient` instance.
+         - GIT COMMIT: `git commit -m "feat(api): add root tRPC router"`
+       - Create a `query-client.ts` in `packages/api/src/client` that exports a function that creates a `QueryClient` instance.
          ```ts
          import superjson from 'superjson'
 
@@ -1158,6 +1160,7 @@ Your choice between them should depend on your project's specific needs regardin
            })
          }
          ```
+         - GIT COMMIT: `git commit -m "feat(api): add query-client helper"`
        - Setup a tRPC client for Client Components create a `client.tsx/index.tsx` file in the `packages/api/src/client` with the following code.
          ```tsx
          'use client'
@@ -1229,6 +1232,7 @@ Your choice between them should depend on your project's specific needs regardin
             )
          }
          ```
+         - GIT COMMIT: `git commit -m "feat(api): setup tRPC client for client components"`
        - Setup a tRPC caller for Server Components create a `server.tsx/index.tsx` file in the `packages/api/src/server` with the following code.
          ```tsx
          import 'server-only' // <-- ensure this file cannot be imported from the client
@@ -1298,6 +1302,7 @@ Your choice between them should depend on your project's specific needs regardin
          //   );
          // }
          ```
+         - GIT COMMIT: `git commit -m "feat(api): setup tRPC caller for server components"`
        - Initialize the connection of `tRPC` (packages/api) and `Next.js` (apps/web).
          - Add the `@craftzcode/api` package in `dependencies` of the `web/packages.json`.
          - Mount the `TRPCReactProvider` from `packages/api/src/client/index.ts` in the root of your application `(e.g. app/layout.tsx when using Next.js)`.
@@ -1318,7 +1323,7 @@ Your choice between them should depend on your project's specific needs regardin
            
            export { handler as GET, handler as POST }
            ```
-           
+           - GIT COMMIT: `git commit -m "feat(api): integrate tRPC with Next.js route and update web dependencies"`
   - Pull Request Title: `feat(backend): add tRPC for end-to-end type safety`
     
 11. Integrate Hono.js in tRPC (Optional)
