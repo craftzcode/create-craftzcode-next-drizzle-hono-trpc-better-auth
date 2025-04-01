@@ -757,10 +757,8 @@ Your choice between them should depend on your project's specific needs regardin
       ```
 
     - GIT COMMIT: `git commit -m "feat(layout): add full metadata and change font family"`
-    
-    - GIT COMMIT: `git commit -m "feat(manifest): add manifest.json for metadata"`
-  
-    - PULL REQUEST TITLE: `feat(frontend): update docs/web layout with full metadata also change font family and add manifest.json`
+      
+    - PULL REQUEST TITLE: `feat(frontend): update docs/web layout with full metadata also change font family`
      
 8. Create the Navigation Menu and Main Component
    - GIT BRANCH: `git checkout -b frontend/feat/4-navigation-menu-main-layout`
