@@ -640,7 +640,7 @@ Your choice between them should depend on your project's specific needs regardin
         - Always add `typescript`, `"@craftzcode/typescript": "*"` and `eslint`, `"@craftzcode/eslint": "*"` on the `package.json` where workspace are you currently working on it.
 
 7.  Add full `metadata` and change `font family`
-    - GIT BRANCH: `git checkout -b frontend/feat/3-metadata-manifest-font-family`
+    - GIT BRANCH: `git checkout -b frontend/feat/3-metadata-font-family`
       
     - Update both root `layout.tsx` of `docs` and `web` to add a full `metadata` and change `font family`.
       ```js
@@ -707,7 +707,6 @@ Your choice between them should depend on your project's specific needs regardin
             'Government healthcare management system for Rural Health Units providing free medical services.',
             images: ['/images/twitter-image.jpg']
           },
-          manifest: '/manifest.json',
           icons: {
             icon: [
                   { url: '/favicon.ico' },
@@ -758,9 +757,7 @@ Your choice between them should depend on your project's specific needs regardin
       ```
 
     - GIT COMMIT: `git commit -m "feat(layout): add full metadata and change font family"`
-  
-    - Copy existing `manifest.json` on any repo to `public` folder both of `docs` and `web`.
-  
+    
     - GIT COMMIT: `git commit -m "feat(manifest): add manifest.json for metadata"`
   
     - PULL REQUEST TITLE: `feat(frontend): update docs/web layout with full metadata also change font family and add manifest.json`
