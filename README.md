@@ -968,7 +968,7 @@ Your choice between them should depend on your project's specific needs regardin
          ```ts
          export * from './auth'
          ```
-       - Create a `drizzle.config.ts` file in the `packages/db/src` and add the following content.
+       - Create a `drizzle.config.ts` file in the `packages/db` and add the following content.
          ```ts
          import dotenv from 'dotenv'
          import { defineConfig } from 'drizzle-kit'
