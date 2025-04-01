@@ -422,13 +422,13 @@ Your choice between them should depend on your project's specific needs regardin
             "^(drizzle-orm/(.*)$)|^(drizzle-orm$)|^(@/db/(.*)$)|^(@/db$)",
             "",
             // Project API modules
-            "^@@craftzcode/api/(.*)$",
+            "^@craftzcode/api/(.*)$",
             "",
             // Project DB modules
-            "^@@craftzcode/db/(.*)$",
+            "^@craftzcode/db/(.*)$",
             "",
             // Project auth modules
-            "^@@craftzcode/auth/(.*)$",
+            "^@craftzcode/auth/(.*)$",
             "",
             // Project module imports
             "@/modules(.*)$",
@@ -448,7 +448,7 @@ Your choice between them should depend on your project's specific needs regardin
             "@hookform$",
             "",
             // UI components
-            "^@@craftzcode/ui/(.*)$",
+            "^@craftzcode/ui/(.*)$",
             "^@/components/(.*)$",
             "",
             // Public assets
