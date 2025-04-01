@@ -1,4 +1,4 @@
-import app from '@rhu-ii/api'
+import app from '@craftzcode/api'
 import { handle } from 'hono/vercel'
 
 export const GET = handle(app)

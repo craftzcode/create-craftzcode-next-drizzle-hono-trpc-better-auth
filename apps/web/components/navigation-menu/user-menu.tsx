@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@rhu-ii/ui/components/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@craftzcode/ui/components/avatar'
 
 export const UserMenu = () => {
   return (

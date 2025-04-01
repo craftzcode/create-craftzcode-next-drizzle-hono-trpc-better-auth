@@ -1,9 +1,9 @@
 {
-  "extends": "@rhu-ii/typescript-config/react-library.json",
+  "extends": "@craftzcode/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@rhu-ii/ui/*": ["./src/*"]
+      "@craftzcode/ui/*": ["./src/*"]
     }
   },
   "include": ["."],

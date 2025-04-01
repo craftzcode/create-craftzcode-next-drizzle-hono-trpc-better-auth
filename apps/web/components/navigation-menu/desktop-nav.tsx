@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
+import { Button } from '@craftzcode/ui/components/button'
 import { RiFileTextLine, RiSettingsLine } from '@remixicon/react'
-import { Button } from '@rhu-ii/ui/components/button'
 
 import { DesktopMainNav } from './desktop-main-nav'
 import { Logo } from './logo'

@@ -2,26 +2,26 @@
 
 import * as React from 'react'
 
-import { Slot } from '@radix-ui/react-slot'
-import { Button } from '@rhu-ii/ui/components/button'
-import { Input } from '@rhu-ii/ui/components/input'
-import { Separator } from '@rhu-ii/ui/components/separator'
+import { Button } from '@craftzcode/ui/components/button'
+import { Input } from '@craftzcode/ui/components/input'
+import { Separator } from '@craftzcode/ui/components/separator'
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle
-} from '@rhu-ii/ui/components/sheet'
-import { Skeleton } from '@rhu-ii/ui/components/skeleton'
+} from '@craftzcode/ui/components/sheet'
+import { Skeleton } from '@craftzcode/ui/components/skeleton'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
-} from '@rhu-ii/ui/components/tooltip'
-import { useIsMobile } from '@rhu-ii/ui/hooks/use-mobile'
-import { cn } from '@rhu-ii/ui/lib/utils'
+} from '@craftzcode/ui/components/tooltip'
+import { useIsMobile } from '@craftzcode/ui/hooks/use-mobile'
+import { cn } from '@craftzcode/ui/lib/utils'
+import { Slot } from '@radix-ui/react-slot'
 import { cva, VariantProps } from 'class-variance-authority'
 import { PanelLeftIcon } from 'lucide-react'
 

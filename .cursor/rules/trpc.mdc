@@ -204,6 +204,111 @@ alwaysApply: false
   });
   ```
 
+### 8. Documentation and Code Quality
+
+#### Comprehensive Documentation
+- **Rule**: Include comprehensive documentation for logic, algorithms, and complex implementations
+- **Example 1: Middleware**:
+  ```typescript
+   /**
+   * Protected procedure middleware for authenticated routes
+   *
+   * @description
+   * This middleware ensures that the request has a valid user session before proceeding.
+   * It throws an UNAUTHORIZED error if no session exists, preventing unauthorized access
+   * to protected API endpoints.
+   *
+   * The session is obtained from the tRPC context, which is created in `createTRPCContext`
+   * (lib/context.ts). There, the session is extracted from the request headers using
+   * the auth API: `auth.api.getSession({ headers: c.req.raw.headers })`.
+   *
+   * Note that `c.req.raw.headers` comes from the Hono context (`c: HonoContext`) that is passed to
+   * `createTRPCContext`. This creates a bridge between Hono's web framework context and tRPC's
+   * context system, allowing session data to flow from the HTTP request (via Hono) into the
+   * tRPC procedure handlers.
+   *
+   * @example
+   * // Creating a protected route that requires authentication
+   * export const userRouter = createTRPCRouter({
+   *   // This route can only be accessed by authenticated users
+   *   getProfile: protectedProcedure
+   *     .query(({ ctx }) => {
+   *       // ctx.session is guaranteed to exist here
+   *       const userId = ctx.session.user.id;
+   *       return getUserProfile(userId);
+   *     }),
+   *
+   *   // Another protected route with input validation
+   *   updateProfile: protectedProcedure
+   *     .input(z.object({ name: z.string() }))
+   *     .mutation(({ ctx, input }) => {
+   *       const userId = ctx.session.user.id;
+   *       return updateUserData(userId, input);
+   *     })
+   * });
+   *
+   * @param {Object} params - The procedure parameters
+   * @param {Context} params.ctx - The tRPC context containing session (if authenticated)
+   * @param {Function} params.next - Function to call the next middleware or resolver
+   * @throws {TRPCError} Throws with code 'UNAUTHORIZED' if no session exists
+   * @returns Result of the next middleware with the session in context
+  */
+  export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+   if (!ctx.session) {
+     throw new TRPCError({ code: 'UNAUTHORIZED' })
+   }
+   return next({
+     ctx: {
+       ...ctx,
+       session: ctx.session
+     }
+    })
+  })
+  ```
+
+- **Example 2: Function**:
+  ```typescript
+   /**
+   * Creates a tRPC context from a Hono context
+   *
+   * @description
+   * This function creates a tRPC context by extracting session information from
+   * the Hono context. It combines the web framework's context (Hono) with tRPC's
+   * context system to enable authenticated API routes.
+   *
+   * Performance considerations:
+   * - Using server-side session fetching avoids redundant client-side network requests
+   * - Direct API access to auth.api.getSession is more efficient than client-side fetching
+   * - The React cache function memoizes context creation to prevent duplicate session lookups
+   *   for the same request, reducing database/auth provider load
+   *
+   * The cache wrapper ensures that within a single React Server Component render pass,
+   * multiple calls to createTRPCContext with the same Hono context will reuse the
+   * previously computed result rather than making duplicate auth verification calls.
+   *
+   * @param c - The Hono context from the HTTP request
+   * @returns A context object containing the user session (if authenticated)
+   */
+  export const createTRPCContext = cache(async (c: HonoContext) => {
+    const session = await auth.api.getSession({
+      headers: c.req.raw.headers
+   })
+
+    console.log({
+      Context: session
+   })
+
+   return { session }
+  })
+  ```
+
+- **Best Practices for Documentation**:
+  - Provide clear descriptions of function purpose
+  - Document special cases and edge conditions
+  - Include realistic usage examples
+  - Specify parameter types and return types
+  - Explain the reasoning behind the implementation
+
 ## Best Practices Summary
 - Keep routers focused and domain-specific
 - Use appropriate authentication levels

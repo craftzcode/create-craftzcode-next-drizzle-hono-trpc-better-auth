@@ -2,10 +2,10 @@
 
 import * as React from 'react'
 
+import { Label } from '@craftzcode/ui/components/label'
+import { cn } from '@craftzcode/ui/lib/utils'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
-import { Label } from '@rhu-ii/ui/components/label'
-import { cn } from '@rhu-ii/ui/lib/utils'
 
 import {
   Controller,

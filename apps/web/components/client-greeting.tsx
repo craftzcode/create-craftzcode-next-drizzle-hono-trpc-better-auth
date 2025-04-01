@@ -1,6 +1,6 @@
 'use client'
 
-import { useTRPC } from '@rhu-ii/api/client'
+import { useTRPC } from '@craftzcode/api/client'
 
 import { useQuery } from '@tanstack/react-query'
 

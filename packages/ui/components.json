@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@rhu-ii/ui/components",
-    "utils": "@rhu-ii/ui/lib/utils",
-    "ui": "@rhu-ii/ui/components",
-    "lib": "@rhu-ii/ui/lib",
-    "hooks": "@rhu-ii/ui/hooks"
+    "components": "@craftzcode/ui/components",
+    "utils": "@craftzcode/ui/lib/utils",
+    "ui": "@craftzcode/ui/components",
+    "lib": "@craftzcode/ui/lib",
+    "hooks": "@craftzcode/ui/hooks"
   },
   "iconLibrary": "lucide"
 }

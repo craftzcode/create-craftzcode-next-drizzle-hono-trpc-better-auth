@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 
-import { Button } from '@rhu-ii/ui/components/button'
-import { cn } from '@rhu-ii/ui/lib/utils'
+import { Button } from '@craftzcode/ui/components/button'
+import { cn } from '@craftzcode/ui/lib/utils'
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 

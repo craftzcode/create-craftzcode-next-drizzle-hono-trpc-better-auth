@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 
+import { cn } from '@craftzcode/ui/lib/utils'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
-import { cn } from '@rhu-ii/ui/lib/utils'
 
 function Tabs({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) {
   return (

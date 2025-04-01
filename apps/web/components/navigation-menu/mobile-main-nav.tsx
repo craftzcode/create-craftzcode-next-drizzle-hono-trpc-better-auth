@@ -3,6 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { Button } from '@craftzcode/ui/components/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@craftzcode/ui/components/dropdown-menu'
+import { cn } from '@craftzcode/ui/lib/utils'
 import {
   RiBox3Line,
   RiFileTextLine,
@@ -12,14 +20,6 @@ import {
   RiShapeLine,
   RiTruckLine
 } from '@remixicon/react'
-import { Button } from '@rhu-ii/ui/components/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@rhu-ii/ui/components/dropdown-menu'
-import { cn } from '@rhu-ii/ui/lib/utils'
 
 export const MobileMainNav = () => {
   const pathname = usePathname()

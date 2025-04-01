@@ -1,5 +1,5 @@
 {
-  "extends": "@rhu-ii/typescript-config/nextjs.json",
+  "extends": "@craftzcode/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {
@@ -10,12 +10,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts",
-    "next.config.js",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "next.config.js", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -678,7 +678,7 @@ config
         - Add this two db scripts in the `package.json` of the root your turbrepo.
           ```json
           "scripts": {
-            "db:craftzcode": "turbo -F @rhu-ii/db push",
+            "db:craftzcode": "turbo -F @craftzcode/db push",
             "db:studio": "turbo -F @craftzcode/db studio"
           }
           ```
@@ -892,7 +892,7 @@ config
       - Inside `packages/api`, create a `package.json` file with the following content.
         ```json
         {
-          "name": "@rhu-ii/api",
+          "name": "@craftzcode/api",
           "version": "0.0.0",
           "type": "module",
           "exports": {
@@ -927,13 +927,13 @@ config
             "zod": "^3.24.2"
           },
           "devDependencies": {
-            "@rhu-ii/eslint-config": "*",
-            "@rhu-ii/prettier-config": "*",
-            "@rhu-ii/typescript-config": "*",
+            "@craftzcode/eslint-config": "*",
+            "@craftzcode/prettier-config": "*",
+            "@craftzcode/typescript-config": "*",
             "eslint": "^9.22.0",
             "typescript": "5.8.2"
           },
-          "prettier": "@rhu-ii/prettier-config"
+          "prettier": "@craftzcode/prettier-config"
         }
         ```
         - GIT COMMIT: `git commit -m "chore(db): add package.json for db package"`

@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 
+import { cn } from '@craftzcode/ui/lib/utils'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { cn } from '@rhu-ii/ui/lib/utils'
 import { ChevronDownIcon } from 'lucide-react'
 
 function Accordion({ ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) {

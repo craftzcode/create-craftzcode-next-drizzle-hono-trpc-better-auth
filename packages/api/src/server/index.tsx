@@ -7,7 +7,7 @@ import { createTRPCClient, httpLink } from '@trpc/client'
 import { createTRPCOptionsProxy, TRPCQueryOptions } from '@trpc/tanstack-react-query'
 
 import { makeQueryClient } from '../client/query-client'
-import { createTRPCContext } from '../trpc'
+import { createTRPCContext } from '../lib/context'
 import { appRouter } from './routers'
 
 // IMPORTANT: Create a stable getter for the query client that
