@@ -271,7 +271,7 @@ Your choice between them should depend on your project's specific needs regardin
         }
         ```
       - GIT COMMIT: `git commit -m "chore(package): add clean script to all workspaces"`
-      - Add the script for running dev with filtering `docs` or `web`
+      - Add the script for running dev with filtering `docs` or `web` in the root `package.json` of your turborepo.
         ```json
         "dev:docs": "turbo run dev -F docs",
         "dev:web": "turbo run dev -F web",
